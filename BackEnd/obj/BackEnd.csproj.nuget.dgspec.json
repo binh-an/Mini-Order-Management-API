@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {}
+    "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {
+    "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+        "projectPath": "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\BE\\Mini Order Management API\\BackEnd\\obj\\",
+        "outputPath": "d:\\BE\\Mini Order Management API\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",

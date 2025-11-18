@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mdo90B3t9jo=",
+  "dgSpecHash": "eRE86sgdhsA=",
   "success": true,
-  "projectFilePath": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+  "projectFilePath": "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
