@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {}
+    "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {
+    "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "d:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+        "projectPath": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "d:\\BE\\Mini Order Management API\\BackEnd\\obj\\",
+        "outputPath": "D:\\BE\\Mini Order Management API\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,6 +45,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.*, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.22, )"
@@ -62,6 +70,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.*, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.15.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

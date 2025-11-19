@@ -1,6 +1,6 @@
 namespace Data.DTOs
 {
-    public class RegisterDTo
+    public class RegisterDTO
     {
         public string Username { get; set; }
         public string Password { get; set; }
