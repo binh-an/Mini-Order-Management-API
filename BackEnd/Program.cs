@@ -3,7 +3,7 @@ using Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+//builder.Services.AddAutoMapper(MappingProfile);
 
 
 // 1. Add DbContext with SQL Server
