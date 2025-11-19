@@ -3,11 +3,12 @@ import { IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
 import "./css/login.css";
 import { Link } from "react-router-dom";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -15,6 +16,7 @@ export default function Login(){
         console.log("Password:", password);
         console.log("Remember me:", remember);
         // sau này: gọi API login
+        navigate("/create-product");
     };
 
     return (
