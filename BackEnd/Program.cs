@@ -5,12 +5,14 @@ using Repositories.Interfaces;
 using Services.Interfaces;
 using Data;
 using Services;
-using Services.Interfaces;
+using Services.Implementations;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
+
 // Cấu hình Authentication với JWT
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
@@ -19,6 +21,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IOrderService, Services.Implementations.OrderService>();
 builder.Services.AddScoped<IOrderRepository, Repositories.Implementations.OrderRepository>();
 builder.Services.AddScoped<IProductRepository, Repositories.Implementations.ProductRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 // 1. Add DbContext with SQL Server
