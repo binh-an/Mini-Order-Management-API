@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
+import { RxAvatar } from "react-icons/rx";
 import "./css/create-product.css";
 import { NavLink } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
@@ -90,7 +91,7 @@ export default function Cart() {
           </NavLink>
           <span className="icon"><IoIosHelpCircleOutline /></span>
           <span className="icon"><GrLanguage /></span>
-          <span className="icon">Avatar</span>
+          <span className="icon"><RxAvatar /></span>
         </div>
       </header>
 

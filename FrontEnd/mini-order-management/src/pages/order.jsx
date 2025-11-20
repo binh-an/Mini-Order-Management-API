@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
+import { RxAvatar } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 import "./css/create-product.css"; // tái sử dụng CSS cũ
 
@@ -42,7 +43,7 @@ export default function Order() {
           </NavLink>
           <span className="icon"><IoIosHelpCircleOutline /></span>
           <span className="icon"><GrLanguage /></span>
-          <span className="icon">Avatar</span>
+          <span className="icon"><RxAvatar /></span>
         </div>
       </header>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoIosHelpCircleOutline, IoIosAdd } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
+import { RxAvatar } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 import "./css/create-product.css";
 
@@ -96,7 +97,7 @@ export default function CreateProduct() {
           <span className="icon" onClick={openAddProductPopup}><IoIosAdd /></span>
           <span className="icon"><IoIosHelpCircleOutline /></span>
           <span className="icon"><GrLanguage /></span>
-          <span className="icon">Avatar</span>
+          <span className="icon"><RxAvatar /></span>
         </div>
       </header>
 
