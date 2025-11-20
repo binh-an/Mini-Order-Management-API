@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { IoIosHelpCircleOutline } from "react-icons/io";
-import { GrLanguage } from "react-icons/gr";
 import "./css/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import AuthHeader from "../components/header/authHeader";
+
 export default function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,13 +21,7 @@ export default function Login(){
 
     return (
         <div className="login-page">
-            <header className="login-header">
-                <div className="logo">Car Showroom</div>
-                <div className="header-icons">
-                    <span className="icon"><IoIosHelpCircleOutline /></span>
-                    <span className="icon"><GrLanguage /></span>
-                </div>
-            </header>
+            <AuthHeader/>
 
             <main className="login-main">
                 <form className="login-form" onSubmit={handleLogin}>

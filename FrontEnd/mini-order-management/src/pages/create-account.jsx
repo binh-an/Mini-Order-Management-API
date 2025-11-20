@@ -1,12 +1,10 @@
 import { useState } from "react";
-//import { CountrySelect } from "react-country-state-city";
-import { IoIosHelpCircleOutline } from "react-icons/io";
-import { GrLanguage } from "react-icons/gr";
 import "./css/login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import AuthHeader from "../components/header/authHeader";
+
 export default function CreateAccount() {
-  //const [country, setCountry] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agree, setAgree] = useState(false);
@@ -14,7 +12,6 @@ export default function CreateAccount() {
   
   const handleCreate = (e) => {
     e.preventDefault();
-    //console.log("Country:", country);
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Agreed:", agree);
@@ -24,28 +21,11 @@ export default function CreateAccount() {
 
   return (
     <div className="login-page">
-      <header className="login-header">
-        <div className="logo">Car Showroom</div>
-        <div className="header-icons">
-            <span className="icon"><IoIosHelpCircleOutline /></span>
-            <span className="icon"><GrLanguage /></span>
-        </div>
-      </header>
+      <AuthHeader/>
 
       <main className="login-main">
         <form className="login-form" onSubmit={handleCreate}>
           <h2>Create Account</h2>
-
-          {/* <div className="form-group">
-            <label>Country / Region</label>
-            <CountrySelect
-              containerClassName="form-group"
-              inputClassName="country-select"
-              classNamePrefix="country"
-              onChange={(countryObj) => setCountry(countryObj)}
-              placeHolder="Select country"
-            />
-          </div> */}
 
           <div className="form-group">
             <label>Email</label>

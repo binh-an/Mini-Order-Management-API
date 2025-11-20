@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { IoIosHelpCircleOutline } from "react-icons/io";
-import { GrLanguage } from "react-icons/gr";
-import "./css/login.css"; // vẫn dùng CSS cũ, có thể chỉnh nếu cần
+import "./css/login.css"; 
 import { useNavigate } from "react-router-dom";
+import AuthHeader from "../components/header/authHeader";
+
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -17,13 +17,7 @@ export default function ForgotPassword() {
   };
   return (
     <div className="login-page">
-      <header className="login-header">
-        <div className="logo">Car Showroom</div>
-        <div className="header-icons">
-            <span className="icon"><IoIosHelpCircleOutline /></span>
-            <span className="icon"><GrLanguage /></span>
-        </div>
-      </header>
+      <AuthHeader/>
 
       <main className="login-main">
         <form className="login-form" onSubmit={handleConfirm}>
