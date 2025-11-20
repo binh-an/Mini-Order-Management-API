@@ -294,3 +294,5 @@ D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\refint\BackEnd.
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
+D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

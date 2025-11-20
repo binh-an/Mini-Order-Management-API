@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Cấu hình Authentication với JWT
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<IOrderService, Services.Implementations.OrderService>();
@@ -33,15 +35,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Đăng ký AuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
-
-var app = builder.Build();
-// Cấu hình AuthService
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-app.UseMiddleware<Middlewares.ErrorHandlerMiddleware>();
-// Cấu hình Authentication với JWT
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -69,6 +62,14 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
+var app = builder.Build();
+// Cấu hình AuthService
+
+
+app.UseMiddleware<Middlewares.ErrorHandlerMiddleware>();
+
+
+
 // Middleware
 
 if (app.Environment.IsDevelopment())
