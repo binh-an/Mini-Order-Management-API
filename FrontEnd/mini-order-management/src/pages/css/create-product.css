@@ -23,6 +23,21 @@
 .header-icons .icon {
   margin-left: 15px;
   cursor: pointer;
+  padding-bottom: 5px;
+  text-decoration: none;
+  position: relative;
+  color: black;
+}
+
+.header-icons .icon.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #0057ff;
+  border-radius: 2px;
 }
 
 .product-main {
@@ -199,3 +214,154 @@
   font-size: 0.9rem;
 }
 
+/* ------------------------------------------ */
+.left-side-cart {
+  width: 30%;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.left-side-cart:hover {
+  background: #eaf2ff;
+}
+
+.left-side-cart p {
+  margin: 5px 0 0 0;
+  font-size: 0.85rem;
+}
+
+.left-side-cart .cart-icon {
+  font-size: 28px;
+  color: #0057ff;
+}
+
+/* ------------------------------------------------- */
+/* CART PAGE */
+/* --- CART CARD VERTICAL --- */
+.create-product-page .cart-card-vertical {
+  width: 90%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;      /* từ trên xuống */
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.cart-checkbox-vertical {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transform: scale(1.3);
+}
+
+.cart-image-vertical {
+  width: 90%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.cart-name {
+  margin: 5px 0 0 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.cart-text {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cart-qty-vertical {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-qty-vertical button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.cart-qty-vertical span {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.create-product-page .cart-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 50px;
+  background: white; /* nếu muốn nền */
+  padding: 10px 20px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  width: 100%; /* hoặc width của page */
+}
+
+/* _______________________________________________ */
+.invoice-modal {
+  width: 500px;
+  max-width: 90%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.invoice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.invoice-buttons button {
+  padding: 8px 12px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.accept-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}

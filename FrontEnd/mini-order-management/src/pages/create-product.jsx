@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoIosHelpCircleOutline, IoIosAdd } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./css/create-product.css";
 
 export default function CreateProduct() {
@@ -22,6 +22,7 @@ export default function CreateProduct() {
     setFormProduct({name:"", description:"", price:"", stock:"", image:null, preview:""});
     setShowAddProduct(true);
   };
+
   const closeAddProductPopup = () => setShowAddProduct(false);
 
   const handleAddProduct = (e) => {
@@ -40,6 +41,7 @@ export default function CreateProduct() {
     });
     setShowUpdateProduct(true);
   };
+
   const closeUpdatePopup = () => setShowUpdateProduct(false);
 
   const handleUpdateProduct = (e) => {
@@ -53,10 +55,12 @@ export default function CreateProduct() {
     setCurrentProduct(product);
     setShowDeleteConfirm(true);
   };
+
   const handleDeleteProduct = () => {
     setProducts(products.filter(p => p.id !== currentProduct.id));
     setShowDeleteConfirm(false);
   };
+
   const closeDeleteConfirm = () => setShowDeleteConfirm(false);
 
   // ---- Handle image upload ----
@@ -76,8 +80,19 @@ export default function CreateProduct() {
       <header className="app-header">
         <div className="logo">Car Showroom</div>
         <div className="header-icons">
-          <Link to="/order" className="icon link">Order</Link>
-          <Link to="/create-product" className="icon link">Create</Link>
+          <NavLink
+            to="/order"
+            className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
+          >
+            Order
+          </NavLink>
+
+          <NavLink
+            to="/create-product"
+            className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
+          >
+            Create
+          </NavLink>
           <span className="icon" onClick={openAddProductPopup}><IoIosAdd /></span>
           <span className="icon"><IoIosHelpCircleOutline /></span>
           <span className="icon"><GrLanguage /></span>
@@ -160,7 +175,7 @@ export default function CreateProduct() {
                             <button className="delete-btn" onClick={() => openDeleteConfirm(p)}>Delete</button>
                         </div>
                         <div className="right-side">
-                            <h3>{p.name}</h3>
+                            <h3>Name: {p.name}</h3>
                             <p>Price: ${p.price}</p>
                             <p>Stock: {p.stock}</p>
                         </div>
