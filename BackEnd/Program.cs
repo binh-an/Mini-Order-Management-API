@@ -1,18 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Data.Entities;
-<<<<<<< HEAD
 using FluentValidation;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using Data;
-=======
 using Services;
 using Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 
->>>>>>> origin/binhan
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
