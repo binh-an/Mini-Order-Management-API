@@ -16,6 +16,11 @@ namespace Data
 
             CreateMap<OrderDetail, OrderDetailResponseDto>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+                  // Map: OrderCreateDto -> Order
+            CreateMap<OrderCreateDto, Order>();
+
+            // Map: OrderDetailCreateDto -> OrderDetail
+            CreateMap<OrderDetailCreateDto, OrderDetail>();
         }
     }
 }
