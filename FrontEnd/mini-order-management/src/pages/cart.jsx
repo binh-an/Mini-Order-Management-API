@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { IoIosHelpCircleOutline } from "react-icons/io";
-import { GrLanguage } from "react-icons/gr";
-import { RxAvatar } from "react-icons/rx";
 import "./css/create-product.css";
-import { NavLink } from "react-router-dom";
-import { IoCartOutline } from "react-icons/io5";
+import BasicHeader from "../components/header/basicHeader";
+import CartCard from "../components/cartItem/CartCard";
+import InvoiceModal from "../components/invoiceModal/InvoiceModal";
 
 export default function Cart() {
   const [cart, setCart] = useState([
@@ -66,65 +64,19 @@ export default function Cart() {
 
   return (
     <div className="create-product-page">
-      <header className="app-header">
-        <div className="logo">Car Showroom</div>
-        <div className="header-icons">
-          <NavLink
-              to="/cart"
-              className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
-          >
-              <IoCartOutline/>
-          </NavLink>
-
-          <NavLink
-              to="/order"
-              className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
-          >
-              Order
-          </NavLink>
-
-          <NavLink
-              to="/create-product"
-              className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
-          >
-              Create
-          </NavLink>
-          <span className="icon"><IoIosHelpCircleOutline /></span>
-          <span className="icon"><GrLanguage /></span>
-          <span className="icon"><RxAvatar /></span>
-        </div>
-      </header>
+      <BasicHeader/>
 
       <main className="product-main">
 
         <div className="product-list">
           {cart.map(p => (
-            <div key={p.id} className="cart-card-vertical">
-
-              <input
-                type="checkbox"
-                className="cart-checkbox-vertical"
-                checked={p.selected}
-                onChange={() => toggleSelect(p.id)}
-              />
-
-              <img
-                src={p.image}
-                alt={p.name}
-                className="cart-image-vertical"
-              />
-
-              <h3 className="cart-name">{p.name}</h3>
-              <p className="cart-text">Price: ${p.price}</p>
-              <p className="cart-text">Stock: {p.stock}</p>
-
-              <div className="cart-qty-vertical">
-                <button onClick={() => decreaseQty(p.id)}>-</button>
-                <span>{p.qty}</span>
-                <button onClick={() => increaseQty(p.id)}>+</button>
-              </div>
-
-            </div>
+            <CartCard
+              key={p.id}
+              p={p}
+              toggleSelect={toggleSelect}
+              decreaseQty={decreaseQty}
+              increaseQty={increaseQty}
+            />
           ))}
         </div>
 
@@ -135,41 +87,11 @@ export default function Cart() {
         </div>
 
         {showInvoice && (
-        <div className="modal">
-            <div className="modal-content invoice-modal">
-
-                <table className="invoice-table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {cart.filter(p => p.selected).map(p => (
-                        <tr key={p.id}>
-                        <td>{p.name}</td>
-                        <td>${p.price}</td>
-                        <td>{p.qty}</td>
-                        <td>${p.price * p.qty}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-
-                <div className="invoice-footer">
-                    <div className="invoice-total">
-                    Total: ${cart.filter(p => p.selected).reduce((t, p) => t + p.price * p.qty, 0)}
-                    </div>
-                    <div className="invoice-buttons">
-                    <button onClick={handleAccept} className="accept-btn">Accept</button>
-                    <button onClick={handleCancel} className="cancel-btn">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+          <InvoiceModal
+            cart={cart}
+            handleAccept={handleAccept}
+            handleCancel={handleCancel}
+          />
         )}
   
       </main>
