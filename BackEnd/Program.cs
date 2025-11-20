@@ -24,9 +24,6 @@ builder.Services.AddSwaggerGen();
 // Đăng ký AuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-var app = builder.Build();
-// Cấu hình AuthService
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Cấu hình Authentication với JWT
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -59,6 +56,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 // Middleware
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
