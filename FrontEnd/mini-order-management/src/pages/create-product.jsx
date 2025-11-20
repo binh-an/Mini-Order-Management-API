@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { IoIosHelpCircleOutline, IoIosAdd } from "react-icons/io";
-import { GrLanguage } from "react-icons/gr";
-import { RxAvatar } from "react-icons/rx";
-import { NavLink } from "react-router-dom";
 import "./css/create-product.css";
+import AddProductHeader from "../components/header/addProductHeader";
+import ProductCard from "../components/productCard/ProductCard";
+import AddProductPopup from "../components/productCard/AddProductPopup";
+import UpdateProductPopup from "../components/productCard/UpdateProductPopup";
 
 export default function CreateProduct() {
   const [products, setProducts] = useState([
@@ -78,74 +78,29 @@ export default function CreateProduct() {
 
   return (
     <div className="create-product-page">
-      <header className="app-header">
-        <div className="logo">Car Showroom</div>
-        <div className="header-icons">
-          <NavLink
-            to="/order"
-            className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
-          >
-            Order
-          </NavLink>
-
-          <NavLink
-            to="/create-product"
-            className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
-          >
-            Create
-          </NavLink>
-          <span className="icon" onClick={openAddProductPopup}><IoIosAdd /></span>
-          <span className="icon"><IoIosHelpCircleOutline /></span>
-          <span className="icon"><GrLanguage /></span>
-          <span className="icon"><RxAvatar /></span>
-        </div>
-      </header>
+      <AddProductHeader openAddProductPopup={openAddProductPopup} />
 
       <main className="product-main">
         {/* --- Add Product Popup --- */}
         {showAddProduct && (
-          <div className="modal">
-            <div className="modal-content">
-              <h4>Add Product</h4>
-              <form onSubmit={handleAddProduct}>
-                <div className="image-preview" onClick={() => document.getElementById("imageInput").click()}>
-                  {formProduct.preview ? <img src={formProduct.preview} alt="Preview" /> : <div className="placeholder">Click to select image</div>}
-                </div>
-                <input type="file" id="imageInput" accept="image/*" style={{ display: "none" }} onChange={handleImageChange}/>
-                <input type="text" placeholder="Product Name" value={formProduct.name} onChange={e => setFormProduct({...formProduct, name:e.target.value})} required/>
-                <textarea placeholder="Description" value={formProduct.description} onChange={e => setFormProduct({...formProduct, description:e.target.value})} required/>
-                <input type="number" placeholder="Price" value={formProduct.price} onChange={e => setFormProduct({...formProduct, price:e.target.value})} required/>
-                <input type="number" placeholder="Stock" value={formProduct.stock} onChange={e => setFormProduct({...formProduct, stock:e.target.value})} required/>  
-                <div className="modal-buttons">
-                  <button type="submit">Add</button>
-                  <button type="button" onClick={closeAddProductPopup}>Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <AddProductPopup
+            formProduct={formProduct}
+            setFormProduct={setFormProduct}
+            handleAddProduct={handleAddProduct}
+            closeAddProductPopup={closeAddProductPopup}
+            handleImageChange={handleImageChange}
+          />
         )}
 
         {/* --- Update Product Popup --- */}
         {showUpdateProduct && (
-          <div className="modal">
-            <div className="modal-content">
-              <h4>Update Product</h4>
-              <form onSubmit={handleUpdateProduct}>
-                <div className="image-preview" onClick={() => document.getElementById("updateImageInput").click()}>
-                  {formProduct.preview ? <img src={formProduct.preview} alt="Preview" /> : <div className="placeholder">Click to select image</div>}
-                </div>
-                <input type="file" id="updateImageInput" accept="image/*" style={{ display: "none" }} onChange={handleImageChange}/>
-                <input type="text" placeholder="Product Name" value={formProduct.name} onChange={e => setFormProduct({...formProduct, name:e.target.value})} required/>
-                <textarea placeholder="Description" value={formProduct.description} onChange={e => setFormProduct({...formProduct, description:e.target.value})} required/>
-                <input type="number" placeholder="Price" value={formProduct.price} onChange={e => setFormProduct({...formProduct, price:e.target.value})} required/>
-                <input type="number" placeholder="Stock" value={formProduct.stock} onChange={e => setFormProduct({...formProduct, stock:e.target.value})} required/>  
-                <div className="modal-buttons">
-                  <button type="submit">Update</button>
-                  <button type="button" onClick={closeUpdatePopup}>Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <UpdateProductPopup
+            formProduct={formProduct}
+            setFormProduct={setFormProduct}
+            handleUpdateProduct={handleUpdateProduct}
+            closeUpdatePopup={closeUpdatePopup}
+            handleImageChange={handleImageChange}
+          />
         )}
 
         {/* --- Delete Confirmation Popup --- */}
@@ -164,25 +119,13 @@ export default function CreateProduct() {
         {/* --- Product List --- */}
         <div className="product-list">
             {products.map(p => (
-                <div key={p.id} className="product-card">
-                    <div className="card-top">
-                        <img src={p.preview || (p.image instanceof File ? URL.createObjectURL(p.image) : p.image) || "https://via.placeholder.com/150"} alt={p.name} />
-                        <div className="description">{p.description}</div>
-                    </div>
-                    <div className="card-bottom">
-                        <div className="left-side">
-                            <p>ID: {p.id}</p>
-                            <button className="update-btn" onClick={() => openUpdatePopup(p)}>Update</button>
-                            <button className="delete-btn" onClick={() => openDeleteConfirm(p)}>Delete</button>
-                        </div>
-                        <div className="right-side">
-                            <h3>Name: {p.name}</h3>
-                            <p>Price: ${p.price}</p>
-                            <p>Stock: {p.stock}</p>
-                        </div>
-                    </div>
-                </div>
-            ))}
+              <ProductCard
+                key={p.id}
+                p={p}
+                openUpdatePopup={openUpdatePopup}
+                openDeleteConfirm={openDeleteConfirm}
+                />
+              ))}
         </div>
       </main>
     </div>
