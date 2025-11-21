@@ -40,14 +40,6 @@ builder.Services.AddSwaggerGen();
 // Đăng ký AuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-<<<<<<< HEAD
-=======
-
-// Cấu hình Authentication với JWT
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-
->>>>>>> origin/binhan
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -83,11 +75,6 @@ app.UseMiddleware<Middlewares.ErrorHandlerMiddleware>();
 
 
 // Middleware
-<<<<<<< HEAD
-
-=======
-var app = builder.Build();
->>>>>>> origin/binhan
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
