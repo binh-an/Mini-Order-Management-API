@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ex9JtR71jNY=",
+  "dgSpecHash": "MyM7Kvn9WNs=",
   "success": true,
-  "projectFilePath": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+  "projectFilePath": "d:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\YEN NHI\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\YEN NHI\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
