@@ -3,7 +3,9 @@
   flex-direction: column;
   min-height: 100vh;
   background-color: #f5f5f5;
-  width: 1280px;
+  width: 100%;
+  /* max-width: 1280px; */
+  margin: 0 auto;
 }
 
 .login-header {
@@ -63,7 +65,8 @@
 }
 
 .form-group input[type="email"],
-.form-group input[type="password"] {
+.form-group input[type="password"],
+.form-group input[type="username"] {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #000000;

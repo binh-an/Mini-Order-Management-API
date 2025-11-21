@@ -3,20 +3,33 @@ import "./css/login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import AuthHeader from "../components/header/authHeader";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateAccount() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agree, setAgree] = useState(false);
   const navigate = useNavigate();
+  const { register, isAuthenticated } = useAuth();
   
   const handleCreate = (e) => {
     e.preventDefault();
+    console.log("Username:", username);
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Agreed:", agree);
-    // gọi API tạo account ở đây
-    navigate("/");
+    // call register and auto-login (AuthContext will try to auto-login)
+    register(email, email, password)
+      .then(() => {
+        // if register auto-logged in, go to create-product, else go to login
+        if (isAuthenticated) navigate("/create-product");
+        else navigate("/");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert(err?.message || JSON.stringify(err));
+      });
   };
 
   return (
@@ -26,6 +39,17 @@ export default function CreateAccount() {
       <main className="login-main">
         <form className="login-form" onSubmit={handleCreate}>
           <h2>Create Account</h2>
+
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="username"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
 
           <div className="form-group">
             <label>Email</label>

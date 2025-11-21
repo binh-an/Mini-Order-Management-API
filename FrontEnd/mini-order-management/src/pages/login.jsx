@@ -3,20 +3,28 @@ import "./css/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AuthHeader from "../components/header/authHeader";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
-        console.log("Remember me:", remember);
-        // sau này: gọi API login
-        navigate("/create-product");
+        setError(null);
+        login(email, password, remember)
+            .then(() => {
+                navigate("/create-product");
+            })
+            .catch((err) => {
+                console.error(err);
+                const msg = err?.message || err?.error || JSON.stringify(err);
+                setError(msg);
+            });
     };
 
     return (
@@ -28,7 +36,7 @@ export default function Login(){
                     <h2>Sign in</h2>
 
                     <div className="form-group">
-                        <label>Emaill</label>
+                        <label>Email</label>
                         <input
                             type="email"
                             placeholder="Enter your email"
@@ -60,6 +68,8 @@ export default function Login(){
                     </div>
 
                     <button type="submit" className="btn-signin">Sign In</button>
+
+                    {error && <div className="form-error" style={{color:'red', marginTop:8}}>{error}</div>}
 
                     <div className="form-bottom-links">
                         <Link to="/forgot-pass" className="link">Forgot password?</Link>
