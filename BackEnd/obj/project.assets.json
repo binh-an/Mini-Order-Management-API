@@ -2,6 +2,7 @@
   "version": 3,
   "targets": {
     "net8.0": {
+<<<<<<< HEAD
       "AutoMapper/12.0.1": {
         "type": "package",
         "dependencies": {
@@ -9,11 +10,26 @@
         },
         "compile": {
           "lib/netstandard2.1/AutoMapper.dll": {
+=======
+      "AutoMapper/15.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Options": "8.0.0",
+          "Microsoft.IdentityModel.JsonWebTokens": "8.14.0"
+        },
+        "compile": {
+          "lib/net8.0/AutoMapper.dll": {
+>>>>>>> origin/binhan
             "related": ".xml"
           }
         },
         "runtime": {
+<<<<<<< HEAD
           "lib/netstandard2.1/AutoMapper.dll": {
+=======
+          "lib/net8.0/AutoMapper.dll": {
+>>>>>>> origin/binhan
             "related": ".xml"
           }
         }
@@ -877,10 +893,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.JsonWebTokens/7.1.2": {
+      "Microsoft.IdentityModel.JsonWebTokens/8.14.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "7.1.2"
+          "Microsoft.IdentityModel.Tokens": "8.14.0"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
@@ -1668,6 +1684,7 @@
     }
   },
   "libraries": {
+<<<<<<< HEAD
     "AutoMapper/12.0.1": {
       "sha512": "hvV62vl6Hp/WfQ24yzo3Co9+OPl8wH8hApwVtgWpiAynVJkUcs7xvehnSftawL8Pe8FrPffBRM3hwzLQqWDNjA==",
       "type": "package",
@@ -1681,6 +1698,26 @@
         "icon.png",
         "lib/netstandard2.1/AutoMapper.dll",
         "lib/netstandard2.1/AutoMapper.xml"
+=======
+    "AutoMapper/15.1.0": {
+      "sha512": "uJXRC0ysO+i3fuW1onh0cUmaLbEwfMWwAZ5nw2eKhYccHwDgRhSC4Qj3rNdBy4vdhnC3r4NinhhldANKNWpH1Q==",
+      "type": "package",
+      "path": "automapper/15.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "automapper.15.1.0.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net8.0/AutoMapper.dll",
+        "lib/net8.0/AutoMapper.xml",
+        "lib/net9.0/AutoMapper.dll",
+        "lib/net9.0/AutoMapper.xml",
+        "lib/netstandard2.0/AutoMapper.dll",
+        "lib/netstandard2.0/AutoMapper.xml"
+>>>>>>> origin/binhan
       ]
     },
     "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
@@ -3241,15 +3278,14 @@
         "microsoft.identitymodel.abstractions.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.JsonWebTokens/7.1.2": {
-      "sha512": "cloLGeZolXbCJhJBc5OC05uhrdhdPL6MWHuVUnkkUvPDeK7HkwThBaLZ1XjBQVk9YhxXE2OvHXnKi0PLleXxDg==",
+    "Microsoft.IdentityModel.JsonWebTokens/8.14.0": {
+      "sha512": "4jOpiA4THdtpLyMdAb24dtj7+6GmvhOhxf5XHLYWmPKF8ApEnApal1UnJsKO4HxUWRXDA6C4WQVfYyqsRhpNpQ==",
       "type": "package",
-      "path": "microsoft.identitymodel.jsonwebtokens/7.1.2",
+      "path": "microsoft.identitymodel.jsonwebtokens/8.14.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/net461/Microsoft.IdentityModel.JsonWebTokens.dll",
-        "lib/net461/Microsoft.IdentityModel.JsonWebTokens.xml",
+        "README.md",
         "lib/net462/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/net462/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/net472/Microsoft.IdentityModel.JsonWebTokens.dll",
@@ -3258,9 +3294,11 @@
         "lib/net6.0/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.xml",
+        "lib/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll",
+        "lib/net9.0/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.xml",
-        "microsoft.identitymodel.jsonwebtokens.7.1.2.nupkg.sha512",
+        "microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
         "microsoft.identitymodel.jsonwebtokens.nuspec"
       ]
     },
@@ -4479,6 +4517,10 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+<<<<<<< HEAD
+=======
+      "AutoMapper >= 15.1.0",
+>>>>>>> origin/binhan
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.1",
       "BCrypt.Net-Next >= 4.0.3",
       "FluentValidation >= 12.1.0",
@@ -4499,11 +4541,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
       "projectName": "BackEnd",
       "projectPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
       "packagesPath": "C:\\Users\\hocam\\.nuget\\packages\\",
       "outputPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\obj\\",
+=======
+      "projectUniqueName": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+      "projectName": "BackEnd",
+      "projectPath": "D:\\BE\\Mini Order Management API\\BackEnd\\BackEnd.csproj",
+      "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+      "outputPath": "D:\\BE\\Mini Order Management API\\BackEnd\\obj\\",
+>>>>>>> origin/binhan
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4542,6 +4592,13 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+<<<<<<< HEAD
+=======
+          "AutoMapper": {
+            "target": "Package",
+            "version": "[15.1.0, )"
+          },
+>>>>>>> origin/binhan
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
             "version": "[12.0.1, )"
@@ -4611,5 +4668,21 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
+<<<<<<< HEAD
   }
+=======
+  },
+  "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 15.1.0 was resolved.",
+      "libraryId": "AutoMapper",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+>>>>>>> origin/binhan
 }
