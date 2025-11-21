@@ -15,6 +15,7 @@ namespace Controllers
 
         // POST /api/orders -> user tự tạo đơn hàng
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] OrderCreateDto dto)
         {
             var result = await _service.CreateOrderAsync(dto);
@@ -23,6 +24,7 @@ namespace Controllers
 
         // GET /api/orders/{id} -> user chỉ xem đơn của mình, admin xem tất cả
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var order = await _service.GetOrderByIdAsync(id);
