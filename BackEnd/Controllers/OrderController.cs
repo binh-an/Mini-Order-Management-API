@@ -1,0 +1,61 @@
+using Data.DTOs.OrderDTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
+
+namespace Controllers
+{
+
+    [ApiController]
+    [Route("api/orders")]
+    public class OrderController : ControllerBase
+    {
+        private readonly IOrderService _service;
+        public OrderController(IOrderService service) => _service = service;
+
+        // POST /api/orders -> user tự tạo đơn hàng
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] OrderCreateDto dto)
+        {
+            var result = await _service.CreateOrderAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        }
+
+        // GET /api/orders/{id} -> user chỉ xem đơn của mình, admin xem tất cả
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var order = await _service.GetOrderByIdAsync(id);
+            return Ok(order);
+        }
+
+        // GET /api/orders -> user chỉ xem của mình, admin xem toàn bộ
+        [HttpGet]
+        [Authorize(Roles = "Admin")] 
+        public async Task<IActionResult> GetAll()
+        {
+            var orders = await _service.GetAllOrdersAsync();
+            return Ok(orders);
+        }
+
+        // PATCH /api/orders/{id}/status -> chỉ admin sửa trạng thái
+        [HttpPatch("{id:int}/status")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] string status)
+        {
+            var ok = await _service.UpdateOrderStatusAsync(id,status);
+            if (!ok) return NotFound();
+            return NoContent();
+        }
+
+        // DELETE /api/orders/{id} -> chỉ admin xoá
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var ok = await _service.DeleteOrderAsync(id);
+            if (!ok) return NotFound();
+            return NoContent();
+        }
+    }
+}
