@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {}
+    "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "d:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {
+    "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "d:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+        "projectPath": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\YEN NHI\\.nuget\\packages\\",
-        "outputPath": "d:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\obj\\",
+        "outputPath": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\YEN NHI\\AppData\\Roaming\\NuGet\\NuGet.Config"
