@@ -21,6 +21,11 @@ namespace Data
 
             // Map: OrderDetailCreateDto -> OrderDetail
             CreateMap<OrderDetailCreateDto, OrderDetail>();
+
+            // Customer mappings
+            CreateMap<Data.Entities.Customer, Data.DTOs.CustomerDTO>();
+            CreateMap<Data.DTOs.CreateCustomerDTO, Data.Entities.Customer>();
+            CreateMap<Data.DTOs.UpdateCustomerDTO, Data.Entities.Customer>();
         }
     }
 }

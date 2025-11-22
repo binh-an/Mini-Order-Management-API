@@ -4493,31 +4493,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hocam\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\YEN NHI\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+      "projectUniqueName": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
       "projectName": "BackEnd",
-      "projectPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
-      "packagesPath": "C:\\Users\\hocam\\.nuget\\packages\\",
-      "outputPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\obj\\",
+      "projectPath": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+      "packagesPath": "C:\\Users\\YEN NHI\\.nuget\\packages\\",
+      "outputPath": "D:\\BINHAN\\Mini-Order-Management-API\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\hocam\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\YEN NHI\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4535,8 +4528,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "net8.0": {
