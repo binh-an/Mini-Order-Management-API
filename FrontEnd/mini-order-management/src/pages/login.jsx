@@ -3,7 +3,7 @@ import "./css/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AuthHeader from "../components/header/authHeader";
-import authService from "../services/authService";
+import authService from "../services/authServices";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
