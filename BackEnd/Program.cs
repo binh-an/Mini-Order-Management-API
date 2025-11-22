@@ -83,6 +83,7 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 // Ensure authentication middleware runs before authorization
+//app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
