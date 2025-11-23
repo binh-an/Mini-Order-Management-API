@@ -64,9 +64,9 @@
   color: black;
 }
 
-.form-group input[type="email"],
+.form-group input[type="text"],
 .form-group input[type="password"],
-.form-group input[type="username"] {
+.form-group input[type="email"] {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #000000;

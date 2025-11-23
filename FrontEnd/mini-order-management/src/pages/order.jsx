@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { IoCartOutline } from "react-icons/io5";
 import "./css/create-product.css";
+import { IoCartOutline } from "react-icons/io5";
 import BasicHeader from "../components/header/basicHeader";
 
 export default function Order() {

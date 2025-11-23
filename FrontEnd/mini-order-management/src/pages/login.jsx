@@ -3,21 +3,38 @@ import "./css/login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AuthHeader from "../components/header/authHeader";
+import axiosClient from "../services/axiosClient";
 
 export default function Login(){
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
-        console.log("Remember me:", remember);
-        // sau này: gọi API login
-        navigate("/create-product");
+    const handleLogin = async (e) => {
+    e.preventDefault();
+
+        try {
+            const response = await axiosClient.post("/Auth/login", {
+                username: username,
+                password: password,
+            });
+
+            console.log("Login success:", response);
+
+            // Lưu token (nếu backend trả về)
+            if (response.token) {
+                localStorage.setItem("token", response.token);
+            }
+
+            navigate("/create-product");
+
+        } catch (error) {
+            console.error("Login failed:", error);
+            alert("Login thất bại! Vui lòng kiểm tra lại tài khoản hoặc mật khẩu.");
+        }
     };
+
 
     return (
         <div className="login-page">
@@ -28,12 +45,12 @@ export default function Login(){
                     <h2>Sign in</h2>
 
                     <div className="form-group">
-                        <label>Emaill</label>
+                        <label>Username</label>
                         <input
-                            type="email"
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="text"
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             required
                         />
                     </div>
