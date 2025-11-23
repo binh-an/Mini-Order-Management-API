@@ -66,6 +66,17 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
+// Cấu hình CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReact",
+        policy => policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true));
+});
+
 var app = builder.Build();
 // Cấu hình AuthService
 
@@ -83,8 +94,11 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 // Ensure authentication middleware runs before authorization
+//app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
+// Enable CORS
+app.UseCors("AllowReact");
 app.MapControllers();
 
 app.Run();

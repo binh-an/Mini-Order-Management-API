@@ -3,7 +3,7 @@ import "./css/login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import AuthHeader from "../components/header/authHeader";
-import { useAuth } from "../context/AuthContext";
+import axiosClient from "../services/axiosClient";
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -11,39 +11,47 @@ export default function CreateAccount() {
   const [password, setPassword] = useState("");
   const [agree, setAgree] = useState(false);
   const navigate = useNavigate();
-  const { register, isAuthenticated } = useAuth();
   
-  const handleCreate = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Agreed:", agree);
-    // call register and auto-login (AuthContext will try to auto-login)
-    register(email, email, password)
-      .then(() => {
-        // if register auto-logged in, go to create-product, else go to login
-        if (isAuthenticated) navigate("/create-product");
-        else navigate("/");
-      })
-      .catch((err) => {
-        console.error(err);
-        alert(err?.message || JSON.stringify(err));
-      });
+    if (!agree) return;
+
+    try {
+      // 1️⃣ Register
+      await axiosClient.post("/Auth/register", { username, email, password });
+      console.log("Register success");
+
+      await new Promise(resolve => setTimeout(resolve,2000));
+
+      // 2️⃣ Login ngay sau register
+      const loginRes = await axiosClient.post("/Auth/login", { username, password });
+      console.log("Full login response:", loginRes);
+      if (!loginRes.token) throw new Error("Login fail sau register");
+
+      // 3️⃣ Lưu token
+      localStorage.setItem("token", loginRes.token);
+
+      // 4️⃣ Redirect
+      navigate("/create-product");
+    } catch (err) {
+      console.error("Error:", err.response?.data || err.message);
+      alert(err.response?.data || err.message || "Lỗi đăng ký hoặc đăng nhập");
+    }
   };
+
 
   return (
     <div className="login-page">
       <AuthHeader/>
 
       <main className="login-main">
-        <form className="login-form" onSubmit={handleCreate}>
+        <form className="login-form" onSubmit={handleRegister}>
           <h2>Create Account</h2>
 
           <div className="form-group">
             <label>Username</label>
             <input
-              type="username"
+              type="text"
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -84,7 +92,7 @@ export default function CreateAccount() {
             <label htmlFor="agree">Agree to ours Privacy & Terms</label>
           </div>
 
-          <button type="submit" className="btn-signin">Create</button>
+          <button type="submit" className="btn-signin" disabled={!agree}>Create</button>
 
           <div className="form-bottom-links">
             <Link to="/" className="link">Already have an account?</Link>
