@@ -15,24 +15,21 @@ export default function CreateAccount() {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!agree) return;
-
     try {
-      // 1️⃣ Register
+      //Register
       await axiosClient.post("/Auth/register", { username, email, password });
       console.log("Register success");
 
-      await new Promise(resolve => setTimeout(resolve,2000));
+      await new Promise(resolve => setTimeout(resolve, 300));
 
-      // 2️⃣ Login ngay sau register
+      //Login after register
       const loginRes = await axiosClient.post("/Auth/login", { username, password });
       console.log("Full login response:", loginRes);
       if (!loginRes.token) throw new Error("Login fail sau register");
 
-      // 3️⃣ Lưu token
+      //Lưu token
       localStorage.setItem("token", loginRes.token);
-
-      // 4️⃣ Redirect
-      navigate("/create-product");
+      navigate("/order");
     } catch (err) {
       console.error("Error:", err.response?.data || err.message);
       alert(err.response?.data || err.message || "Lỗi đăng ký hoặc đăng nhập");

@@ -13,28 +13,22 @@ export default function Login(){
 
     const handleLogin = async (e) => {
     e.preventDefault();
-
         try {
             const response = await axiosClient.post("/Auth/login", {
                 username: username,
                 password: password,
             });
-
             console.log("Login success:", response);
-
-            // Lưu token (nếu backend trả về)
+            // Lưu token
             if (response.token) {
                 localStorage.setItem("token", response.token);
             }
-
-            navigate("/create-product");
-
+            navigate("/order");
         } catch (error) {
             console.error("Login failed:", error);
             alert("Login thất bại! Vui lòng kiểm tra lại tài khoản hoặc mật khẩu.");
         }
     };
-
 
     return (
         <div className="login-page">

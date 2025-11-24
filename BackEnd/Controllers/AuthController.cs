@@ -63,6 +63,7 @@ namespace BackEnd.Controller
 
             return Ok(response);
         }
+        
         private string GenerateJwtToken(User user)
         {
             var claims = new[]
