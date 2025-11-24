@@ -44,6 +44,39 @@ namespace Services
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
 
+            await using var transaction = await _db.Database.BeginTransactionAsync();
+
+            try
+            {
+                // BẬT IDENTITY_INSERT TRONG CÙNG TRANSACTION
+                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Customers ON");
+
+                var customer = new Customer
+                {
+                    Id = user.Id,
+                    Name = user.Username,
+                    Email = user.Email,
+                    PhoneNumber = "",
+                    Address = ""
+                };
+
+                _db.Customers.Add(customer);
+                await _db.SaveChangesAsync();
+
+
+                await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Customers OFF");
+
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                // Tắt IDENTITY_INSERT nếu có lỗi (an toàn)
+                try { await _db.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Customers OFF"); }
+                catch { }
+                throw;
+            }
+
             // 4. Tạo token và trả về
             return new AuthResponseDTO
             {
@@ -71,7 +104,11 @@ namespace Services
         }
         private string GenerateToken(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+
+            var keyString = _config["Jwt:Key"];   // ← LẤY CHUỖI GỐC
+
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

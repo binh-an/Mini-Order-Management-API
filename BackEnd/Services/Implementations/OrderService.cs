@@ -11,36 +11,42 @@ namespace Services.Implementations
     // OrderService với transaction, stock check, snapshot price...
     public class OrderService : IOrderService
     {
+        private readonly IOrderDetailRepository _orderDetailRepo;
         private readonly IOrderRepository _orderRepo;
         private readonly IProductRepository _productRepo;
         private readonly AppDbContext _db; // để transaction
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
 
-        public OrderService(IOrderRepository orderRepo, IProductRepository productRepo, AppDbContext db, IMapper mapper, IHttpContextAccessor httpContext)
+        public OrderService(IOrderRepository orderRepo, IProductRepository productRepo, AppDbContext db, IMapper mapper, IHttpContextAccessor httpContext, IOrderDetailRepository orderDetailRepo)
         {
             _orderRepo = orderRepo;
             _productRepo = productRepo;
             _db = db;
             _mapper = mapper;
             _httpContext = httpContext;
+            _orderDetailRepo = orderDetailRepo;
         }
 
         // Tạo order: kiểm tra product tồn tại, stock đủ, snapshot unitprice, giảm stock, lưu order trong transaction
-       
+
 
         public async Task<OrderResponseDto> CreateOrderAsync(OrderCreateDto dto)
         {
-            // 1) Lấy user id từ JWT (claim). Ở token ta đã lưu ClaimTypes.NameIdentifier hoặc "CustomerId".
-            //    Nếu không có => user chưa auth => throw 401.
-            var userIdClaim = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)
-                              ?? _httpContext.HttpContext?.User?.FindFirstValue("CustomerId");
-            if (string.IsNullOrEmpty(userIdClaim))
+
+
+
+            var userIdClaim = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(userIdClaim, out var customerId))
                 throw new UnauthorizedAccessException("User not authenticated.");
 
-            var customerId = int.Parse(userIdClaim);
 
-            // 2) Business validation cơ bản của DTO
+            var customerExists = await _db.Customers.AnyAsync(c => c.Id == customerId);
+            if (!customerExists)
+                throw new NotFoundException("Customer profile not found. Please register again.");
+
+
+
             if (dto.Items == null || !dto.Items.Any())
                 throw new BusinessException("Order must contain at least one item.");
 
@@ -48,7 +54,7 @@ namespace Services.Implementations
             await using var tx = await _db.Database.BeginTransactionAsync();
             try
             {
-                // 4) Tạo đối tượng Order mới (chưa lưu DB)
+                // 4) Tạo đối tượng Order mới (chưa lưu DB
                 var order = new Order
                 {
                     CustomerId = customerId,
@@ -88,8 +94,8 @@ namespace Services.Implementations
                     // Trừ tồn kho trong entity product
                     product.StockQuantity -= item.Quantity;
 
-                    // Cập nhật product thông qua repository (để EF track changes)
-                    await _productRepo.UpdateAsync(product);
+
+                    // await _productRepo.UpdateAsync(product);
 
                     // Cộng vào tổng tiền
                     total += unitPrice * item.Quantity;
@@ -101,13 +107,15 @@ namespace Services.Implementations
                 // 7) Lưu Order vào DB thông qua repository
                 await _orderRepo.AddAsync(order);
 
+
+                // await _orderRepo.SaveChangesAsync();
                 // 8) Persist thay đổi (cả product updates + order + orderdetails)
-                await _orderRepo.SaveChangesAsync(); // hoặc _db.SaveChangesAsync() nếu repo không làm
+                await _db.SaveChangesAsync(); // hoặc _db.SaveChangesAsync() nếu repo không làm
 
                 // 9) Commit transaction sau khi Save thành công
                 await tx.CommitAsync();
 
-                // 10) Nếu muốn đảm bảo Order có đầy đủ navigation (Product) để map tên sản phẩm,
+
                 //     reload order với details (Include product) qua repository
                 var savedOrder = await _orderRepo.GetWithDetailsAsync(order.Id);
 
@@ -116,17 +124,18 @@ namespace Services.Implementations
 
                 return response;
             }
-            catch
+            catch (Exception ex)
             {
                 // 12) Rollback và rethrow để middleware xử lý thành HTTP error phù hợp
-                await tx.RollbackAsync();
+                try { await tx.RollbackAsync(); } catch { }
+                Console.WriteLine("ORDER ERROR: " + ex.Message);
                 throw;
             }
         }
 
 
         // Lấy order theo id (kèm details)
-        
+
 
         public async Task<OrderResponseDto> GetOrderByIdAsync(int id)
         {
@@ -134,13 +143,20 @@ namespace Services.Implementations
             if (order == null)
                 throw new NotFoundException("Order not found.");
 
-            var userId = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userIdClaim = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             var role = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.Role);
 
             // Nếu không phải admin thì chỉ được xem đơn của chính mình
-            if (role != "Admin" && order.CustomerId.ToString() != userId)
-                throw new UnauthorizedAccessException("You are not allowed to view this order.");
+            if (role == "Admin")
+                return _mapper.Map<OrderResponseDto>(order);
 
+            if (!int.TryParse(userIdClaim, out var userId))
+                throw new UnauthorizedAccessException("Invalid token.");
+
+
+
+            if (order.CustomerId != userId)
+                throw new UnauthorizedAccessException("You are not allowed to view this order.");
             return _mapper.Map<OrderResponseDto>(order);
         }
 
@@ -175,6 +191,41 @@ namespace Services.Implementations
             return true;
         }
 
+        public async Task<bool> UpdateOrderAsync(OrderUpdateDto dto)
+        {
+            var order = await _orderRepo.GetByIdAsync(dto.Id);
+            if (order == null) return false;
+
+            // Cập nhật thông tin (ví dụ đơn giản)
+            order.CustomerId = dto.CustomerId;
+
+            // Xóa chi tiết cũ
+            await _orderDetailRepo.DeleteByOrderIdAsync(dto.Id);
+
+            // Thêm chi tiết mới
+            foreach (var item in dto.Items)
+            {
+                var detail = new OrderDetail
+                {
+                    OrderId = dto.Id,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice
+                };
+                await _orderDetailRepo.AddAsync(detail);
+
+                // Cập nhật tồn kho
+                var product = await _productRepo.GetByIdAsync(item.ProductId);
+                if (product != null)
+                {
+                    product.StockQuantity -= item.Quantity;
+                    await _productRepo.UpdateAsync(product);
+                }
+            }
+
+            await _orderRepo.UpdateAsync(order);
+            return true;
+        }
         public async Task<bool> DeleteOrderAsync(int id)
         {
             var role = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.Role);

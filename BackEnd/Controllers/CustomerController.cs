@@ -1,102 +1,64 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 using Data.DTOs;
 using Data.Entities;
-using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
+using FluentValidation;
+using Data.Validations;
+using System.Security.Claims;
 namespace Controllers
 {
+    [Route("api/customers")]
     [ApiController]
-    [Route("api/[controller]")]
     public class CustomerController : ControllerBase
     {
-        private readonly AppDbContext _db;
-        private readonly IMapper _mapper;
+        private readonly ICustomerService _service;
 
-        public CustomerController(AppDbContext db, IMapper mapper)
-        {
-            _db = db;
-            _mapper = mapper;
-        }
-
-        // GET /api/customers -> Admin only
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAll()
-        {
-            var customers = await _db.Set<Customer>().ToListAsync();
-            var dtos = customers.Select(c => _mapper.Map<CustomerDTO>(c));
-            return Ok(dtos);
-        }
-
-        // GET /api/customers/me -> authenticated user gets their own customer profile
-        [HttpGet("me")]
-        [Authorize]
-        public async Task<IActionResult> GetMe()
-        {
-            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim)) return Forbid();
-            if (!int.TryParse(userIdClaim, out var id)) return Forbid();
-
-            var customer = await _db.Set<Customer>().FindAsync(id);
-            if (customer == null) return NotFound();
-            return Ok(_mapper.Map<CustomerDTO>(customer));
-        }
-
-        // GET /api/customers/{id} -> Admin or owner
-        [HttpGet("{id:int}")]
-        [Authorize]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var customer = await _db.Set<Customer>().FindAsync(id);
-            if (customer == null) return NotFound();
-
-            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
-            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (role != "Admin")
-            {
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId) || userId != id)
-                    return Forbid();
-            }
-
-            return Ok(_mapper.Map<CustomerDTO>(customer));
-        }
-
-        // POST /api/customers -> Admin only
+        public CustomerController(ICustomerService service) => _service = service;
+        private int CurrentUserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        // admin xem tất cả khách hangf
+        [HttpGet][Authorize] public async Task<ActionResult<List<CustomerDto>>> GetAll() => Ok(await _service.GetAllAsync());
+        //admin xem theo id
+        [HttpGet("{id:int}")] public async Task<ActionResult<CustomerDto>> GetById(int id) => Ok(await _service.GetByIdAsync(id));
+        //user & admin xem thông tin của mình
+        [HttpGet("me")][Authorize] public async Task<ActionResult<CustomerProfileDto>> GetMyProfile() => Ok(await _service.GetMyProfileAsync());
+        //admin thêm khách hàng
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([FromBody] CreateCustomerDTO dto)
+        [Authorize]
+        public async Task<ActionResult<CustomerDto>> Create([FromBody] CreateCustomerDto dto)
         {
-            var customer = _mapper.Map<Customer>(dto);
-            _db.Set<Customer>().Add(customer);
-            await _db.SaveChangesAsync();
-            var res = _mapper.Map<CustomerDTO>(customer);
-            return CreatedAtAction(nameof(GetById), new { id = customer.Id }, res);
+            var error = Validate(dto, new CreateCustomerDtoValidator());
+            if (error is not null) return error;
+            return CreatedAtAction(nameof(GetById), new { id = CurrentUserId }, await _service.CreateAsync(dto));
         }
-
-        // PUT /api/customers/{id} -> Admin only
+        //admin sửa thông tin
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerDTO dto)
+        [Authorize]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerDto dto)
         {
-            var customer = await _db.Set<Customer>().FindAsync(id);
-            if (customer == null) return NotFound();
-            _mapper.Map(dto, customer);
-            await _db.SaveChangesAsync();
-            return NoContent();
+            if (id != dto.Id) return BadRequest("Id mismatch.");
+            var error = Validate(dto, new UpdateCustomerDtoValidator());
+            if (error is not null) return error;
+            return (await _service.UpdateAsync(dto)) ? NoContent() : NotFound();
         }
-
-        // DELETE /api/customers/{id} -> Admin only
+        //admin xóa khách hàng = id
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
+            => (await _service.DeleteAsync(id)) ? NoContent() : NotFound();
+
+        // HÀM VALIDATE – DÙNG CHUNG 
+        private ActionResult Validate<T>(T dto, IValidator<T> validator) where T : class
         {
-            var customer = await _db.Set<Customer>().FindAsync(id);
-            if (customer == null) return NotFound();
-            _db.Set<Customer>().Remove(customer);
-            await _db.SaveChangesAsync();
-            return NoContent();
+            var result = validator.Validate(dto);
+            if (!result.IsValid)
+            {
+                var errors = result.Errors
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray());
+                return BadRequest(new { errors });
+            }
+            return null!;
         }
     }
 }

@@ -2,8 +2,7 @@ using AutoMapper;
 using Data.DTOs.OrderDTO;
 using Data.DTOs.OrderDetailDTO;
 using Data.Entities;
-
-
+using Data.DTOs;
 namespace Data
 {
     // Đây là cấu hình AutoMapper map giữa Entity và DTO
@@ -16,16 +15,17 @@ namespace Data
 
             CreateMap<OrderDetail, OrderDetailResponseDto>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
-                  // Map: OrderCreateDto -> Order
+            // Map: OrderCreateDto -> Order
             CreateMap<OrderCreateDto, Order>();
 
             // Map: OrderDetailCreateDto -> OrderDetail
             CreateMap<OrderDetailCreateDto, OrderDetail>();
-
-            // Customer mappings
-            CreateMap<Data.Entities.Customer, Data.DTOs.CustomerDTO>();
-            CreateMap<Data.DTOs.CreateCustomerDTO, Data.Entities.Customer>();
-            CreateMap<Data.DTOs.UpdateCustomerDTO, Data.Entities.Customer>();
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<Customer, CustomerProfileDto>();
+            CreateMap<CreateCustomerDto, Customer>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<UpdateCustomerDto, Customer>();
+            CreateMap<Customer, CustomerDto>();
         }
     }
 }
