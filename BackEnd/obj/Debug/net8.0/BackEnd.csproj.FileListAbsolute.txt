@@ -300,11 +300,6 @@ D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\refint\BackEnd.
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
-<<<<<<< HEAD
-D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\BCrypt.Net-Next.dll
-D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-=======
->>>>>>> origin/binhan
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\appsettings.Development.json
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\appsettings.json
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\BackEnd.staticwebassets.endpoints.json
@@ -459,5 +454,5 @@ F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
-=======
 >>>>>>> origin/hieu
+F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll

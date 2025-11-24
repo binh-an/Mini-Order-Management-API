@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Data.DTOs;
 using Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controller
 {
@@ -42,6 +43,24 @@ namespace BackEnd.Controller
             {
                 return Unauthorized(ex.Message);
             }
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var identity = HttpContext.User;
+            if (identity == null) return Unauthorized();
+
+            var userInfo = new
+            {
+                Id = identity.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value,
+                Username = identity.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value,
+                Email = identity.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value,
+                Role = identity.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value
+            };
+
+            return Ok(userInfo);
         }
     }
 }

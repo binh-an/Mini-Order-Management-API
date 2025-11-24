@@ -15,8 +15,6 @@ using Data.DTOs;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 
-
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -27,8 +25,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         var keyStr = builder.Configuration["Jwt:Key"];
         var issuer = builder.Configuration["Jwt:Issuer"];
         var audience = builder.Configuration["Jwt:Audience"];
-
-       
 
         if (string.IsNullOrWhiteSpace(keyStr))
             throw new InvalidOperationException("Jwt:Key bị null hoặc trống!");
@@ -46,7 +42,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyStr)),
             
-
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(5)
         };
@@ -87,7 +82,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
@@ -114,16 +108,10 @@ var validatorTypes = typeof(Program).Assembly.GetTypes()
     .Where(t => t.IsClass && t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValidator<>)))
     .ToList();
 
-
-
 // 3. Add Swagger (optional, nếu muốn test API)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Đăng ký AuthService
-
-
-
-
 
 builder.Services.AddAuthorization();
 
@@ -131,18 +119,18 @@ builder.Services.AddControllers();
 // Cấu hình CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReact",
-        policy => policy
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .SetIsOriginAllowed(_ => true));
+    options.AddPolicy("AllowReact", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
 // Cấu hình AuthService
 app.UseMiddleware<Middlewares.ErrorHandlerMiddleware>();
-
 
 // Middleware
 if (app.Environment.IsDevelopment())
@@ -154,11 +142,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 // Ensure authentication middleware runs before authorization
 //app.UseExceptionHandler();
-app.UseAuthentication();
 app.UseRouting();
+app.UseCors("AllowReact");
 app.UseAuthentication();
 app.UseAuthorization();
-// Enable CORS
-app.UseCors("AllowReact");
 app.MapControllers();
 app.Run();

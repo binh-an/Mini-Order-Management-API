@@ -9,17 +9,18 @@ import { AuthContext } from "../../context/AuthContextValue";
 export default function BasicHeader() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const role = localStorage.getItem("role");
 
   const handleCreateClick = () => {  
     console.log(user);
+    console.log("Role:", role);
 
-    if (user?.role === "Admin") {
-      // đúng quyền → cho vào
-      navigate("/create-product");
-    } else {
-      // không đúng quyền → cảnh báo + đứng yên
+
+    if (role !== "Admin") {
       alert("Bạn không có quyền truy cập trang này!");
+      return;
     }
+    navigate("/create-product");
   };
 
   return (
