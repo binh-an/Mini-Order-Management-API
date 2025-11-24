@@ -8,5 +8,6 @@ namespace Services.Interfaces
         Task<IEnumerable<OrderResponseDto>> GetAllOrdersAsync();
         Task<bool> UpdateOrderStatusAsync(int id, string status);
         Task<bool> DeleteOrderAsync(int id);
+        Task<bool> UpdateOrderAsync(OrderUpdateDto dto);
     }
 }

@@ -144,6 +144,8 @@ D:\BE\Mini Order Management API\BackEnd\obj\Debug\net8.0\refint\BackEnd.dll
 D:\BE\Mini Order Management API\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 D:\BE\Mini Order Management API\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 D:\BE\Mini Order Management API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
+=======
+>>>>>>> origin/binhan
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\appsettings.Development.json
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\appsettings.json
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\BackEnd.exe
@@ -155,12 +157,15 @@ D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\AutoMapper.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Azure.Core.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Azure.Identity.dll
+D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\FluentValidation.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Humanizer.dll
+D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
 D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
@@ -295,7 +300,3 @@ D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\refint\BackEnd.
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 D:\backend40%\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
-D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\BCrypt.Net-Next.dll
-D:\backend40%\Mini-Order-Management-API\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-=======
->>>>>>> origin/binhan
