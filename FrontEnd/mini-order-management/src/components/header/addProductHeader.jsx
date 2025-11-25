@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { IoIosAdd, IoIosHelpCircleOutline } from "react-icons/io";
+import { IoIosAdd, IoIosPersonAdd, IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
 import { RxAvatar } from "react-icons/rx";
 
-export default function AddProductHeader({ openAddProductPopup }) {
+export default function AddProductHeader({ openAddProductPopup, openAddCustomerPopup }) {
   return (
     <header className="app-header">
       <div className="logo">Car Showroom</div>
@@ -17,9 +17,11 @@ export default function AddProductHeader({ openAddProductPopup }) {
           Create
         </NavLink>
 
+        {/* Add Product */}
         <span className="icon" onClick={openAddProductPopup}><IoIosAdd /></span>
 
-        {/* <span className="icon "></span> */}
+        {/* Add Customer */}
+        <span className="icon" onClick={openAddCustomerPopup}><IoIosPersonAdd /></span>
 
         <span className="icon"><IoIosHelpCircleOutline /></span>
         <span className="icon"><GrLanguage /></span>

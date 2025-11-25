@@ -29,7 +29,7 @@ export default function ProductCard({ p, openUpdatePopup, openDeleteConfirm }) {
         <div className="right-side">
           <h3>Name: {p.name}</h3>
           <p>Price: ${p.price}</p>
-          <p>Stock: {p.stock}</p>
+          <p>Stock: {p.stockQuantity}</p>
         </div>
       </div>
     </div>

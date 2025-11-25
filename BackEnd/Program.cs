@@ -127,7 +127,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthorization();
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 // Cấu hình AuthService
 app.UseMiddleware<Middlewares.ErrorHandlerMiddleware>();
@@ -142,6 +151,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();

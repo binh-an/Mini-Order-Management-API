@@ -42,11 +42,10 @@ namespace WebAPI.Controllers
         // 3. CHỈ ADMIN MỚI ĐƯỢC TẠO SẢN PHẨM
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Product>> Create([FromBody] CreateProductDTO dto)
+        public async Task<ActionResult<Product>> Create([FromForm] CreateProductDTO dto, IFormFile? image)
         {
             var error = Validate(dto, new ProductCreateValidator());
             if (error is not null) return error;
-
 
             var product = new Product
             {
@@ -54,21 +53,34 @@ namespace WebAPI.Controllers
                 Price = dto.Price,
                 Description = dto.Description,
                 StockQuantity = dto.StockQuantity
-
             };
+
+            // Lưu hình nếu có
+            if (image != null)
+            {
+                var uploadsFolder = Path.Combine("wwwroot", "images");
+                if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+                var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+
+                product.Image = $"/images/{fileName}"; // lưu đường dẫn vào DB
+            }
 
             await _productRepo.AddAsync(product);
 
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = product.Id },
-                product);
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
 
         // 4. CHỈ ADMIN MỚI ĐƯỢC SỬA
         [HttpPut("{id:int}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateProductDTO dto)
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateProductDTO dto, IFormFile? image)
         {
 
             if (id != dto.Id)
@@ -86,9 +98,26 @@ namespace WebAPI.Controllers
             existing.Description = dto.Description;
             existing.StockQuantity = dto.StockQuantity;
 
+            // Lưu hình nếu có
+            if (image != null)
+            {
+                var uploadsFolder = Path.Combine("wwwroot", "images");
+                if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+                var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+
+                existing.Image = $"/images/{fileName}"; // lưu đường dẫn vào DB
+            }
+
             await _productRepo.UpdateAsync(existing);
 
-            return NoContent();
+            return Ok(existing);
         }
 
         // 5. CHỈ ADMIN MỚI ĐƯỢC XÓA

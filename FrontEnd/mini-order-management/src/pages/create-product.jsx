@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./css/create-product.css";
 import AddProductHeader from "../components/header/addProductHeader";
 import ProductCard from "../components/productCard/ProductCard";
@@ -11,80 +11,148 @@ export default function CreateProduct() {
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showUpdateProduct, setShowUpdateProduct] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [formProduct, setFormProduct] = useState({name:"", description:"", price:"", stock:"", image:null, preview:""});
 
-  // ---- Add Product ----
+  const [formProduct, setFormProduct] = useState({
+    name: "",
+    description: "",
+    price: "",
+    stockQuantity: "",
+    image: null,
+    preview: "",
+  });
+
+  // --------------------- FETCH PRODUCTS ---------------------
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await axiosClient.get("/products");
+        setProducts(data);
+      } catch (err) {
+        console.error("Fetch products failed:", err.response?.data || err);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // --------------------- ADD PRODUCT ---------------------
   const openAddProductPopup = () => {
-    setFormProduct({name:"", description:"", price:"", stock:"", image:null, preview:""});
+    setFormProduct({
+      name: "",
+      description: "",
+      price: "",
+      stockQuantity: "",
+      image: null,
+      preview: "",
+    });
     setShowAddProduct(true);
   };
 
   const closeAddProductPopup = () => setShowAddProduct(false);
 
-  const handleAddProduct = (e) => {
+  const handleAddProduct = async (e) => {
     e.preventDefault();
 
-    axiosClient.post("/products", {
-      name: formProduct.name,
-      description: formProduct.description,
-      price: Number(formProduct.price),
-      stockQuantity: Number(formProduct.stock)
-    })
-    .then(product => {
+    try {
+      const formData = new FormData();
+      formData.append("name", formProduct.name);
+      formData.append("description", formProduct.description);
+      formData.append("price", Number(formProduct.price));
+      formData.append("stockQuantity", Number(formProduct.stockQuantity));
+
+      if (formProduct.image) {
+        formData.append("image", formProduct.image);
+      }
+
+      const product = await axiosClient.post("/products", formData);
+
       setProducts([product, ...products]);
       closeAddProductPopup();
-    })
-    .catch(err => {
-      console.error("Add product error:", err);
+    } catch (err) {
+      console.error("Add product error:", err.response?.data || err);
       alert("Không thể tạo sản phẩm! Có thể bạn không phải Admin hoặc token hết hạn.");
-    });
+    }
   };
 
-  // ---- Update Product ----
+  // --------------------- UPDATE PRODUCT ---------------------
   const openUpdatePopup = (product) => {
     setCurrentProduct(product);
+
     setFormProduct({
-      ...product,
-      preview: product.image instanceof File ? URL.createObjectURL(product.image) : product.image
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stockQuantity: product.stockQuantity,
+      image: null, // ảnh cũ backend giữ
+      preview: product.image, // ảnh hiển thị
     });
+
     setShowUpdateProduct(true);
   };
 
   const closeUpdatePopup = () => setShowUpdateProduct(false);
 
-  const handleUpdateProduct = (e) => {
+  const handleUpdateProduct = async (e) => {
     e.preventDefault();
-    axiosClient.put(`/products/${currentProduct.id}`, {
-    id: currentProduct.id,
-    name: formProduct.name,
-    description: formProduct.description,
-    price: formProduct.price,
-    stockQuantity: formProduct.stock
-  });
+
+    try {
+      const formData = new FormData();
+      formData.append("id", currentProduct.id);
+      formData.append("name", formProduct.name);
+      formData.append("description", formProduct.description);
+      formData.append("price", Number(formProduct.price));
+      formData.append("stockQuantity", Number(formProduct.stockQuantity));
+
+      if (formProduct.image instanceof File) {
+        formData.append("image", formProduct.image);
+      }
+
+      const updatedProduct = await axiosClient.put(
+        `/products/${currentProduct.id}`,
+        formData
+      );
+
+      setProducts(
+        products.map((p) =>
+          p.id === currentProduct.id ? updatedProduct : p
+        )
+      );
+      closeUpdatePopup();
+    } catch (err) {
+      console.error("Update product failed:", err.response?.data || err);
+      alert("Cập nhật sản phẩm thất bại!");
+    }
   };
 
-  // ---- Delete Product ----
+
+  // --------------------- DELETE PRODUCT ---------------------
   const openDeleteConfirm = (product) => {
     setCurrentProduct(product);
     setShowDeleteConfirm(true);
   };
 
-  const handleDeleteProduct = () => {
-    axiosClient.delete(`/products/${currentProduct.id}`);
-  };
-
   const closeDeleteConfirm = () => setShowDeleteConfirm(false);
 
-  // ---- Handle image upload ----
+  const handleDeleteProduct = async () => {
+    try {
+      await axiosClient.delete(`/products/${currentProduct.id}`);
+      setProducts(products.filter((p) => p.id !== currentProduct.id));
+      closeDeleteConfirm();
+    } catch (err) {
+      console.error("Delete product failed:", err.response?.data || err);
+      alert("Xóa sản phẩm thất bại!");
+    }
+  };
+
+  // --------------------- HANDLE IMAGE UPLOAD ---------------------
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if(file){
+
+    if (file) {
       setFormProduct({
         ...formProduct,
         image: file,
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
       });
     }
   };
@@ -94,7 +162,6 @@ export default function CreateProduct() {
       <AddProductHeader openAddProductPopup={openAddProductPopup} />
 
       <main className="product-main">
-        {/* --- Add Product Popup --- */}
         {showAddProduct && (
           <AddProductPopup
             formProduct={formProduct}
@@ -105,7 +172,6 @@ export default function CreateProduct() {
           />
         )}
 
-        {/* --- Update Product Popup --- */}
         {showUpdateProduct && (
           <UpdateProductPopup
             formProduct={formProduct}
@@ -116,29 +182,34 @@ export default function CreateProduct() {
           />
         )}
 
-        {/* --- Delete Confirmation Popup --- */}
         {showDeleteConfirm && (
           <div className="modal">
-            <div className="modal-content" style={{width:"250px", textAlign:"center"}}>
+            <div className="modal-content" style={{ width: "250px", textAlign: "center" }}>
               <p>Delete this product?</p>
-              <div className="modal-buttons" style={{justifyContent:"center", gap:"10px"}}>
-                <button style={{backgroundColor:"#f44336", color:"white"}} onClick={handleDeleteProduct}>Confirm</button>
-                <button style={{backgroundColor:"lightgray"}} onClick={closeDeleteConfirm}>Cancel</button>
+              <div className="modal-buttons" style={{ justifyContent: "center", gap: "10px" }}>
+                <button
+                  style={{ backgroundColor: "#f44336", color: "white" }}
+                  onClick={handleDeleteProduct}
+                >
+                  Confirm
+                </button>
+                <button style={{ backgroundColor: "lightgray" }} onClick={closeDeleteConfirm}>
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* --- Product List --- */}
         <div className="product-list">
-            {products.map(p => (
-              <ProductCard
-                key={p.id}
-                p={p}
-                openUpdatePopup={openUpdatePopup}
-                openDeleteConfirm={openDeleteConfirm}
-                />
-              ))}
+          {products.map((p) => (
+            <ProductCard
+              key={p.id}
+              p={p}
+              openUpdatePopup={openUpdatePopup}
+              openDeleteConfirm={openDeleteConfirm}
+            />
+          ))}
         </div>
       </main>
     </div>

@@ -1,107 +1,113 @@
 import { useState } from "react";
 import "./css/login.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthHeader from "../components/header/authHeader";
 import axiosClient from "../services/axiosClient";
 import { jwtDecode } from "jwt-decode";
 
-export default function Login(){
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [remember, setRemember] = useState(false);
-    const navigate = useNavigate();
-    
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            console.log("Sending login request...");
-            const response = await axiosClient.post("/Auth/login", {
-                username,
-                password,
-            });
+export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const navigate = useNavigate();
 
-            console.log("Raw response object:", response);
-            console.log("Response type:", typeof response);
-            console.log("Response keys:", Object.keys(response || {}));
-            console.log("response.token:", response?.token);
-            console.log("response.data:", response?.data);
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-            // axiosClient interceptor already unwraps response.data, so response IS the data
-            const token = response?.token;
-            
-            if (!token) {
-                console.error("Token extraction failed. Full response:", response);
-                throw new Error("Token không tồn tại!");
-            }
+    try {
+      console.log("Sending login request...");
+      // Gửi login request
+      const response = await axiosClient.post("/Auth/login", {
+        username,
+        password,
+      });
 
-            console.log("Storing token in localStorage...");
-            localStorage.setItem("token", token);
-            console.log("Token stored! Checking localStorage:", localStorage.getItem("token"));
+      // Debug response
+      console.log("Raw response:", response);
 
-            // Decode token lấy role
-            const decoded = jwtDecode(token);
-            const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-            localStorage.setItem("role", role);
-            console.log("Login success! Role:", role);
+      // Nếu backend trả token nằm trong response.token
+      const token = response.token || response.data?.token;
 
-            navigate("/order");
-        } catch (error) {
-            console.error("Login failed:", error);
-            alert("Login thất bại! Vui lòng kiểm tra lại tài khoản hoặc mật khẩu.");
-        }
-    };
+      if (!token) {
+        console.error("Token extraction failed!", response);
+        alert("Login thất bại! Token không tồn tại.");
+        return;
+      }
 
+      // Lưu token vào localStorage
+      localStorage.setItem("token", token);
+      console.log("Token stored in localStorage:", token.substring(0, 20) + "...");
 
-    return (
-        <div className="login-page">
-            <AuthHeader/>
+      // Decode JWT để lấy role
+      const decoded = jwtDecode(token);
+      const role =
+        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "user";
+      localStorage.setItem("role", role);
+      console.log("Decoded role:", role);
 
-            <main className="login-main">
-                <form className="login-form" onSubmit={handleLogin}>
-                    <h2>Sign in</h2>
+      // Điều hướng sau khi login
+      navigate("/order");
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login thất bại! Vui lòng kiểm tra tài khoản và mật khẩu.");
+    }
+  };
 
-                    <div className="form-group">
-                        <label>Username</label>
-                        <input
-                            type="text"
-                            placeholder="Enter your username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                    </div>
+  return (
+    <div className="login-page">
+      <AuthHeader />
 
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            placeholder="Enter your password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+      <main className="login-main">
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2>Sign in</h2>
 
-                    <div className="form-group remember-me">
-                        <input
-                            type="checkbox"
-                            id="remember"
-                            checked={remember}
-                            onChange={(e) => setRemember(e.target.checked)}
-                        />
-                        <label htmlFor="remember">Remember me</label>
-                    </div>
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
 
-                    <button type="submit" className="btn-signin">Sign In</button>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-                    <div className="form-bottom-links">
-                        <Link to="/forgot-pass" className="link">Forgot password?</Link>
-                        <br />
-                        <Link to="/create" className="link">Don't have an account?</Link>
-                    </div>
-                </form>
-            </main>
-        </div>
-    );
+          <div className="form-group remember-me">
+            <input
+              type="checkbox"
+              id="remember"
+              checked={remember}
+              onChange={(e) => setRemember(e.target.checked)}
+            />
+            <label htmlFor="remember">Remember me</label>
+          </div>
+
+          <button type="submit" className="btn-signin">
+            Sign In
+          </button>
+
+          <div className="form-bottom-links">
+            <Link to="/forgot-pass" className="link">
+              Forgot password?
+            </Link>
+            <br />
+            <Link to="/create" className="link">
+              Don't have an account?
+            </Link>
+          </div>
+        </form>
+      </main>
+    </div>
+  );
 }
