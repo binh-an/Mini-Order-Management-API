@@ -62,15 +62,15 @@ export default function Customer() {
     { 
         axiosClient.put(`/customers/${currentCustomer.id}`, formCustomer)
  
-    //Update local state trực tiếp, tránh crash nếu data undefined 
-  setCustomers(customers.map(c => c.id === currentCustomer.id ? { ...c, ...formCustomer } : c )); 
-  closeUpdateCustomerPopup(); 
-} 
-catch (err) 
-{ console.error("Update customer failed:", err.response?.data || err);
+        //Update local state trực tiếp, tránh crash nếu data undefined 
+      setCustomers(customers.map(c => c.id === currentCustomer.id ? { ...c, ...formCustomer } : c )); 
+      closeUpdateCustomerPopup(); 
+    } 
+    catch (err) 
+    { console.error("Update customer failed:", err.response?.data || err);
      alert("Cập nhật khách hàng thất bại!");
-     } 
-    };
+    } 
+  };
 
   // Delete Customer
   const handleDeleteCustomer = async (customerId) => {
