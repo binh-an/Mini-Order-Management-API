@@ -7,6 +7,7 @@ import CreateAccount from './pages/create-account'
 import CreateProduct from "./pages/create-product";
 import Order from "./pages/order";
 import Cart from "./pages/cart";
+import Customer from "./pages/customer";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/create-product" element={<CreateProduct/>}/>
           <Route path="/order" element={<Order/>}></Route>
           <Route path="/cart" element={<Cart/>}/>
+          <Route path="/customer" element={<Customer />} />
         </Routes>
       </AuthProvider>
     </Router>

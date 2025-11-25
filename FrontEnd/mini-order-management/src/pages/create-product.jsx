@@ -57,8 +57,19 @@ export default function CreateProduct() {
       const formData = new FormData();
       formData.append("name", formProduct.name);
       formData.append("description", formProduct.description);
-      formData.append("price", Number(formProduct.price));
-      formData.append("stockQuantity", Number(formProduct.stockQuantity));
+      const price = parseFloat(formProduct.price);
+      if (isNaN(price) || price < 0) {
+        alert("Price phải là số >= 0");
+        return;
+      }
+      formData.append("price", price);
+      const stock = parseInt(formProduct.stockQuantity);
+      if (isNaN(stock) || stock < 0) {
+        alert("Stock quantity phải là số nguyên >= 0");
+        return;
+      }
+
+      formData.append("stockQuantity", stock);
 
       if (formProduct.image) {
         formData.append("image", formProduct.image);

@@ -1,9 +1,10 @@
+// src/components/header/CustomerHeader.jsx
 import { NavLink } from "react-router-dom";
-import { IoIosAdd, IoIosPersonAdd, IoIosHelpCircleOutline } from "react-icons/io";
+import { IoIosAdd, IoIosHelpCircleOutline, IoIosPersonAdd } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
 import { RxAvatar } from "react-icons/rx";
 
-export default function AddProductHeader({ openAddProductPopup }) {
+export default function CustomerHeader({ openAddCustomerPopup }) {
   return (
     <header className="app-header">
       <div className="logo">Car Showroom</div>
@@ -17,12 +18,12 @@ export default function AddProductHeader({ openAddProductPopup }) {
           Create
         </NavLink>
 
-        {/* Add Product */}
-        <span className="icon" onClick={openAddProductPopup}><IoIosAdd /></span>
+        <span className="icon" onClick={openAddCustomerPopup}>
+          <IoIosAdd />
+        </span>
 
-        {/* Add Customer */}
         <NavLink to="/customer" className={({ isActive }) => "icon link" + (isActive ? " active" : "")}>
-          <IoIosPersonAdd/>
+          <IoIosPersonAdd />
         </NavLink>
 
         <span className="icon"><IoIosHelpCircleOutline /></span>

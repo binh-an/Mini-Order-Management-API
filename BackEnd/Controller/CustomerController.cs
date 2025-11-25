@@ -39,7 +39,13 @@ namespace Controllers
             if (id != dto.Id) return BadRequest("Id mismatch.");
             var error = Validate(dto, new UpdateCustomerDtoValidator());
             if (error is not null) return error;
-            return (await _service.UpdateAsync(dto)) ? NoContent() : NotFound();
+            var updated = await _service.UpdateAsync(dto);
+            if (!updated) return NotFound();
+
+            var customer = await _service.GetByIdAsync(id);
+            if (customer is null) return NotFound();
+
+            return Ok(customer);
         }
         //admin xóa khách hàng = id
         [HttpDelete("{id:int}")]

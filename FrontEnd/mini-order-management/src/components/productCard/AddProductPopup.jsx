@@ -27,17 +27,19 @@ export default function AddProductPopup({ formProduct, setFormProduct, handleAdd
           <input 
             type="number" 
             placeholder="Price" 
-            value={formProduct.price} 
+            value={formProduct.price ?? ""} 
             onChange={e => setFormProduct({...formProduct, price: e.target.value})} 
             required 
           />
+
           <input 
             type="number" 
             placeholder="Stock" 
-            value={formProduct.stock} 
-            onChange={e => setFormProduct({...formProduct, stock: e.target.value})} 
+            value={formProduct.stockQuantity ?? ""} 
+            onChange={e => setFormProduct({...formProduct, stockQuantity: e.target.value})} 
             required 
           />  
+ 
           <div className="modal-buttons">
             <button type="submit">Add</button>
             <button type="button" onClick={closeAddProductPopup}>Cancel</button>

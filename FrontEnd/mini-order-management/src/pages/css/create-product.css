@@ -366,3 +366,59 @@
   background-color: #f44336;
   color: white;
 }
+
+/* Customer table responsive full width */
+.customer-table {
+  width: 100%;           /* chiếm hết chiều ngang cha */
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 700px;      /* nếu màn hình nhỏ, xuất hiện scroll ngang */
+}
+
+.customer-table th,
+.customer-table td {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.customer-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.customer-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Scroll ngang khi màn hình nhỏ */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.customer-actions {
+  display: flex;
+  justify-content: flex-end;  /* đẩy sang phải */
+  gap: 10px;                  /* khoảng cách giữa các nút */
+}
+
+.customer-actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+
+.customer-actions button.update-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.customer-actions button.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
