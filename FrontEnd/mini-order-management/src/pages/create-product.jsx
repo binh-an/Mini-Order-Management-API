@@ -4,13 +4,10 @@ import AddProductHeader from "../components/header/addProductHeader";
 import ProductCard from "../components/productCard/ProductCard";
 import AddProductPopup from "../components/productCard/AddProductPopup";
 import UpdateProductPopup from "../components/productCard/UpdateProductPopup";
+import axiosClient from "../services/axiosClient";
 
 export default function CreateProduct() {
-  const [products, setProducts] = useState([
-    { id: 1, name: "Car A", description: "Sedan", price: 20000, stock: 5, image: "https://via.placeholder.com/150" },
-    { id: 2, name: "Car B", description: "SUV", price: 30000, stock: 3, image: "https://via.placeholder.com/150" }
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showUpdateProduct, setShowUpdateProduct] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -28,9 +25,21 @@ export default function CreateProduct() {
 
   const handleAddProduct = (e) => {
     e.preventDefault();
-    const id = products.length + 1;
-    setProducts([{...formProduct, id}, ...products]);
-    closeAddProductPopup();
+
+    axiosClient.post("/products", {
+      name: formProduct.name,
+      description: formProduct.description,
+      price: Number(formProduct.price),
+      stockQuantity: Number(formProduct.stock)
+    })
+    .then(product => {
+      setProducts([product, ...products]);
+      closeAddProductPopup();
+    })
+    .catch(err => {
+      console.error("Add product error:", err);
+      alert("Không thể tạo sản phẩm! Có thể bạn không phải Admin hoặc token hết hạn.");
+    });
   };
 
   // ---- Update Product ----
@@ -47,8 +56,13 @@ export default function CreateProduct() {
 
   const handleUpdateProduct = (e) => {
     e.preventDefault();
-    setProducts(products.map(p => p.id === currentProduct.id ? {...formProduct, id: currentProduct.id} : p));
-    closeUpdatePopup();
+    axiosClient.put(`/products/${currentProduct.id}`, {
+    id: currentProduct.id,
+    name: formProduct.name,
+    description: formProduct.description,
+    price: formProduct.price,
+    stockQuantity: formProduct.stock
+  });
   };
 
   // ---- Delete Product ----
@@ -58,8 +72,7 @@ export default function CreateProduct() {
   };
 
   const handleDeleteProduct = () => {
-    setProducts(products.filter(p => p.id !== currentProduct.id));
-    setShowDeleteConfirm(false);
+    axiosClient.delete(`/products/${currentProduct.id}`);
   };
 
   const closeDeleteConfirm = () => setShowDeleteConfirm(false);

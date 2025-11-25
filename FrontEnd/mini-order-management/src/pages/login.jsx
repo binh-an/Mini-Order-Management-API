@@ -15,27 +15,35 @@ export default function Login(){
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
+            console.log("Sending login request...");
             const response = await axiosClient.post("/Auth/login", {
-            username,
-            password,
+                username,
+                password,
             });
 
-            console.log("Full response:", response); 
+            console.log("Raw response object:", response);
+            console.log("Response type:", typeof response);
+            console.log("Response keys:", Object.keys(response || {}));
+            console.log("response.token:", response?.token);
+            console.log("response.data:", response?.data);
 
-            // Axios trả về response.data
-            const data = response.data; 
-            console.log("Login success:", data);
+            // axiosClient interceptor already unwraps response.data, so response IS the data
+            const token = response?.token;
+            
+            if (!token) {
+                console.error("Token extraction failed. Full response:", response);
+                throw new Error("Token không tồn tại!");
+            }
 
-            const token = response?.data?.token || response?.token;
-            if (!token) throw new Error("Token không tồn tại!");
-
-
+            console.log("Storing token in localStorage...");
             localStorage.setItem("token", token);
+            console.log("Token stored! Checking localStorage:", localStorage.getItem("token"));
 
             // Decode token lấy role
             const decoded = jwtDecode(token);
             const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
             localStorage.setItem("role", role);
+            console.log("Login success! Role:", role);
 
             navigate("/order");
         } catch (error) {

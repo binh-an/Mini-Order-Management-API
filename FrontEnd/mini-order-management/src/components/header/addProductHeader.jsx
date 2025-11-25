@@ -19,6 +19,8 @@ export default function AddProductHeader({ openAddProductPopup }) {
 
         <span className="icon" onClick={openAddProductPopup}><IoIosAdd /></span>
 
+        {/* <span className="icon "></span> */}
+
         <span className="icon"><IoIosHelpCircleOutline /></span>
         <span className="icon"><GrLanguage /></span>
         <span className="icon"><RxAvatar /></span>

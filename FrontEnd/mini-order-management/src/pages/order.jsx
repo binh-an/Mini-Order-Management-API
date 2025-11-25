@@ -2,12 +2,20 @@ import { useState } from "react";
 import "./css/create-product.css";
 import { IoCartOutline } from "react-icons/io5";
 import BasicHeader from "../components/header/basicHeader";
+import { useEffect } from "react";
+import axiosClient from "../services/axiosClient";
 
 export default function Order() {
-  const [products] = useState([
-    { id: 1, name: "Car A", description: "Sedan", price: 20000, stock: 5, image: "https://via.placeholder.com/150" },
-    { id: 2, name: "Car B", description: "SUV", price: 30000, stock: 3, image: "https://via.placeholder.com/150" }
-  ]);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    axiosClient.get("/products")
+      .then(res => {
+        console.log("API /products trả về: ", res.data);
+        setProducts(res.data);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
 
   const handleAddToCart = (product) => {
     console.log("Added to cart:", product);
@@ -20,7 +28,7 @@ export default function Order() {
       <main className="product-main">
 
         <div className="product-list">
-          {products.map(p => (
+          {Array.isArray(products) && products.map(p => (
             <div key={p.id} className="product-card">
 
               <div className="card-top">
