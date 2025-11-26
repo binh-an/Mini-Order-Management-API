@@ -28,7 +28,7 @@ namespace Controllers
         
         // GET /api/orders/{id} -> user chỉ xem đơn của mình, admin xem tất cả
 [HttpPut("{id:int}")]
-[Authorize(Roles = "Admin")]
+[Authorize]
 public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateDto dto)
 {
     
