@@ -106,8 +106,18 @@ export default function OrderList() {
                   <td>{new Date(order.createdDate).toLocaleString()}</td>
                   {role === "Admin" && (
                     <td>
-                      <button onClick={() => openEditStatusPopup(order)}>Edit Status</button>
-                      <button onClick={() => handleDeleteOrder(order.id)}>Delete</button>
+                      <button 
+                        className="update-btn" 
+                        onClick={() => openEditStatusPopup(order)}
+                      >
+                        Edit Status
+                      </button>
+                      <button 
+                        className="delete-btn" 
+                        onClick={() => handleDeleteOrder(order.id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   )}
                 </tr>

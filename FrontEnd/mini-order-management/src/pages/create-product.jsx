@@ -95,7 +95,7 @@ export default function CreateProduct() {
       price: product.price,
       stockQuantity: product.stockQuantity,
       image: null, // ảnh cũ backend giữ
-      preview: product.image, // ảnh hiển thị
+      preview: product.imageUrl, // ảnh hiển thị
     });
 
     setShowUpdateProduct(true);
@@ -168,9 +168,28 @@ export default function CreateProduct() {
     }
   };
 
+  const handleSearch = async (id) => {
+    try {
+      if (!id) {
+        // Reset lại toàn bộ sản phẩm
+        const data = await axiosClient.get("/products");
+        setProducts(data);
+        return;
+      }
+      const p = await axiosClient.get(`/products/${id}`);
+      setProducts([p]);
+    } catch (err) {
+      alert("Không tìm thấy sản phẩm!");
+      console.error(err);
+    }
+  };
+
   return (
     <div className="create-product-page">
-      <AddProductHeader openAddProductPopup={openAddProductPopup} />
+      <AddProductHeader 
+        openAddProductPopup={openAddProductPopup}
+        onSearch={handleSearch}
+      />
 
       <main className="product-main">
         {showAddProduct && (

@@ -10,8 +10,14 @@ export default function CartCard({ p, toggleSelect, decreaseQty, increaseQty}){
             />
 
             <img
-            src={p.image}
-            alt={p.name}
+                src={
+                    p.preview ||
+                    (p.image instanceof File
+                    ? URL.createObjectURL(p.image)
+                    : p.imageUrl) ||                  
+                    "https://via.placeholder.com/150"
+                }
+                alt={p.name}
             className="cart-image-vertical"
             />
 

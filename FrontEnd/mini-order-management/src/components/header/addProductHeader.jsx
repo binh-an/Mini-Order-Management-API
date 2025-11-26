@@ -3,10 +3,26 @@ import { IoIosAdd, IoIosPersonAdd, IoIosHelpCircleOutline } from "react-icons/io
 import { GrLanguage } from "react-icons/gr";
 import { RxAvatar } from "react-icons/rx";
 
-export default function AddProductHeader({ openAddProductPopup }) {
+export default function AddProductHeader({ openAddProductPopup, onSearch }) {
   return (
     <header className="app-header">
-      <div className="logo">Car Showroom</div>
+      <div className="left-header">
+        <div className="logo">Car Showroom</div>
+
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search by ID..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSearch(e.target.value.trim());
+              }
+            }}
+          />
+          <button onClick={() => onSearch("")}>Show All</button>
+        </div>
+      </div>
+
 
       <div className="header-icons">
         <NavLink to="/order" className={({ isActive }) => "icon link" + (isActive ? " active" : "")}>

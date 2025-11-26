@@ -6,7 +6,7 @@ import { RxAvatar } from "react-icons/rx";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextValue";
 
-export default function BasicHeader() {
+export default function BasicHeader( {onSearch}) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -25,7 +25,18 @@ export default function BasicHeader() {
 
   return (
     <header className="app-header">
-      <div className="logo">Car Showroom</div>
+      <div className="left-header">
+        <div className="logo">Car Showroom</div>
+
+        {/* SEARCH BOX */}
+        <div className="search-box">
+          <input 
+            type="text" 
+            placeholder="Search by ID..." 
+            onChange={(e) => onSearch && onSearch(e.target.value)}
+          />
+        </div>
+      </div>
 
       <div className="header-icons">
         <NavLink 

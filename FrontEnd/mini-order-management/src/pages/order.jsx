@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 
 export default function Order() {
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -13,6 +14,7 @@ export default function Order() {
       try {
         const data = await axiosClient.get("/products");
         setProducts(data);
+        setAllProducts(data)
       } catch (err) {
         console.error("Fetch products failed:", err.response?.data || err);
       }
@@ -24,9 +26,22 @@ export default function Order() {
     addToCart(product);
   };
 
+  // Hàm search theo ID
+  const handleSearch = (value) => {
+    if (!value.trim()) {
+      setProducts(allProducts); // input trống -> show tất cả
+      return;
+    }
+    const filtered = allProducts.filter(p =>
+      p.id.toString().includes(value.trim())
+    );
+    setProducts(filtered);
+  };
+
   return (
     <div className="create-product-page">
-      <BasicHeader />
+      <BasicHeader onSearch={handleSearch} />
+
 
       <main className="product-main">
         <div className="product-list">
@@ -45,7 +60,7 @@ export default function Order() {
                   </div>
 
                   <div className="right-side">
-                    <h3>Name: {p.name}</h3>
+                    <h3>{p.name}</h3>
                     <p>Price: ${p.price}</p>
                     <p>Stock: {p.stockQuantity}</p>
                   </div>

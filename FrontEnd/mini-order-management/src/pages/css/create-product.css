@@ -69,28 +69,35 @@
 /* Phần trên: hình + description */
 .card-top {
   display: flex;
-  height: 50%;
+  height: 60%;
 }
 
 .card-top img {
   width: 60%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f5f5f5; 
 }
 
 .card-top .description {
   width: 40%;
   padding: 10px;
-  display: flex;
-  justify-content: left;
-  align-items: top;
-  text-align: left;
   font-size: 0.7rem;
+  height: 100%;
+  overflow-y: auto;
+
+  /* Ẩn scrollbar mặc định */
+  scrollbar-width: none; /* Firefox */
 }
+
+.card-top .description::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}
+
 
 /* Phần dưới: 1/3 – 2/3 */
 .card-bottom {
   display: flex;
-  height: 50%;
+  height: 40%;
 }
 
 .card-bottom .left-side {
@@ -186,7 +193,7 @@
 /* Upload hình */
 .image-preview {
   width: 100%;
-  height: 150px;
+  height: 200px;
   border: 1px dashed #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
@@ -195,12 +202,13 @@
   align-items: center;
   cursor: pointer;
   overflow: hidden;
+  background: #fafafa; 
 }
 
 .image-preview img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .image-preview .placeholder {
@@ -268,8 +276,8 @@
 
 .cart-image-vertical {
   width: 90%;
-  height: 160px;
-  object-fit: cover;
+  height: 200px;
+  object-fit: contain;
   border-radius: 6px;
   margin-top: 20px;
 }
@@ -398,6 +406,36 @@
   overflow-x: auto;
 }
 
+/* Nút Action gọn gàng, không hover, không hiệu ứng */
+.customer-table td:last-child {
+  display: flex;
+  gap: 10px;       /* khoảng cách giữa 2 nút */
+  white-space: nowrap; /* tránh xuống dòng */
+}
+
+.customer-table td button {
+  margin: 0;       /* reset margin */
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #4CAF50; /* Edit mặc định */
+  color: white;
+}
+
+/* Delete button */
+.customer-table td button.delete-btn {
+  background-color: #f44336;
+}
+
+.customer-table th:last-child,
+.customer-table td:last-child {
+  width: 180px; /* đặt width cố định vừa đủ cho 2 nút */
+  text-align: center; /* căn giữa */
+  white-space: nowrap; /* tránh xuống dòng */
+}
+
 .customer-actions {
   display: flex;
   justify-content: flex-end;  /* đẩy sang phải */
@@ -411,6 +449,7 @@
   cursor: pointer;
   font-size: 0.85rem;
   transition: 0.2s;
+  display: flex;
 }
 
 .customer-actions button.update-btn {
@@ -422,3 +461,43 @@
   background-color: #f44336;
   color: white;
 }
+
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 120px;
+  padding: 8px 15px;
+  padding-left: 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  background: #f7f7f7;
+  transition: 0.2s;
+  color: black;
+}
+
+.search-box input:focus {
+  background: white;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.search-box button {
+  padding: 5px 8px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: rgb(36, 36, 36);
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+

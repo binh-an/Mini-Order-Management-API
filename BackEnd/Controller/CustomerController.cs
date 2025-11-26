@@ -16,13 +16,13 @@ namespace Controllers
 
         public CustomerController(ICustomerService service) => _service = service;
         private int CurrentUserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        // admin xem tất cả khách hangf
+        // admin xem tất cả khách hangf - page customer chi admin moi xem duoc tat ca
         [HttpGet][Authorize] public async Task<ActionResult<List<CustomerDto>>> GetAll() => Ok(await _service.GetAllAsync());
-        //admin xem theo id
+        //admin xem theo id - page customer chi admin xem khach hang id
         [HttpGet("{id:int}")] public async Task<ActionResult<CustomerDto>> GetById(int id) => Ok(await _service.GetByIdAsync(id));
         //user & admin xem thông tin của mình
         [HttpGet("me")][Authorize] public async Task<ActionResult<CustomerProfileDto>> GetMyProfile() => Ok(await _service.GetMyProfileAsync());
-        //admin thêm khách hàng
+        //admin thêm khách hàng - page customer chi admin moi them duoc
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<CustomerDto>> Create([FromBody] CreateCustomerDto dto)
@@ -31,7 +31,7 @@ namespace Controllers
             if (error is not null) return error;
             return CreatedAtAction(nameof(GetById), new { id = CurrentUserId }, await _service.CreateAsync(dto));
         }
-        //admin sửa thông tin
+        //admin sửa thông tin - page customer chi admin moi sua duoc thong tin
         [HttpPut("{id:int}")]
         [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerDto dto)
@@ -47,7 +47,7 @@ namespace Controllers
 
             return Ok(customer);
         }
-        //admin xóa khách hàng = id
+        //admin xóa khách hàng = id - page customer chi admin moi xoa duoc theo id
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)

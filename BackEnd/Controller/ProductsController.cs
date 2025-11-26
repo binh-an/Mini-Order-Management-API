@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _env = env;
         }
 
-        // 1. MỌI NGƯỜI ĐỀU XEM ĐƯỢC (không cần đăng nhập)
+        // 1. MỌI NGƯỜI ĐỀU XEM ĐƯỢC (không cần đăng nhập) - page order hien tat ca san pham
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Product>>> GetAll()
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             return Ok(dtos);
         }
 
-        // 2. Xem chi tiết sản phẩm (cũng cho mọi người)
+        // 2. Xem chi tiết sản phẩm (cũng cho mọi người) - page order xem 1 san pham bang id
         [HttpGet("{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<Product>> GetById(int id)
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             });
         }
 
-        // 3. CHỈ ADMIN + Upload ảnh
+        // 3. CHỈ ADMIN + Upload ảnh - page create san pham moi chi admin moi duoc vao
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Consumes("multipart/form-data")]
@@ -102,7 +102,7 @@ namespace WebAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = product.Id }, resultDto);
         }
 
-        // 4. CHỈ ADMIN MỚI ĐƯỢC SỬA
+        // 4. CHỈ ADMIN MỚI ĐƯỢC SỬA - page create chi admin moi sua duoc san pham theo id
         [HttpPut("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] UpdateProductDTO dto)
@@ -148,7 +148,7 @@ namespace WebAPI.Controllers
             return Ok(existing);
         }
 
-        // 5. CHỈ ADMIN MỚI ĐƯỢC XÓA
+        // 5. CHỈ ADMIN MỚI ĐƯỢC XÓA - page create chi admin moi xoa duoc san pham theo id
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
