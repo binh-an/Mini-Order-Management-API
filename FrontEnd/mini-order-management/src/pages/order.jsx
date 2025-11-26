@@ -34,7 +34,7 @@ export default function Order() {
             products.map((p) => (
               <div key={p.id} className="product-card">
                 <div className="card-top">
-                  <img src={p.image} alt={p.name} />
+                  <img src={p.imageUrl} alt={p.name} /> 
                   <div className="description">{p.description}</div>
                 </div>
 
