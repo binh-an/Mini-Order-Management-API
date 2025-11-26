@@ -13,6 +13,10 @@ export default function AddProductHeader({ openAddProductPopup }) {
           Order
         </NavLink>
 
+        <NavLink to="/order-list" className={({isActive}) => "icon link" + (isActive ? " active" : "")}>
+          Lists
+        </NavLink>
+
         <NavLink to="/create-product" className={({ isActive }) => "icon link" + (isActive ? " active" : "")}>
           Create
         </NavLink>

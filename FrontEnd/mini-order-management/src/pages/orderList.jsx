@@ -19,14 +19,10 @@ export default function OrderList() {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       let response;
 
-      if (role === "Admin") {
-        response = await axiosClient.get("/orders", config);
-      } else {
-        response = await axiosClient.get("/orders/myorders", config);
-      }
+      response = await axiosClient.get("/orders", config);
 
-      console.log("Fetch response:", response.data);
-      setOrders(response.data || []);
+      console.log("Fetch response:", response);
+      setOrders(response || []);
     } catch (err) {
       console.error("Fetch orders failed:", err.response?.data || err);
       alert("Không thể tải danh sách đơn hàng.");

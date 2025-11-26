@@ -4,7 +4,7 @@ import axiosClient from "../services/axiosClient";
 import AddCustomerPopup from "../components/customer/AddCustomerPopup";
 import UpdateCustomerPopup from "../components/customer/UpdateCustomerPopup";
 import CustomerHeader from "../components/header/customerHeader";
-import "../pages/css/create-product.css"; // vẫn dùng CSS chung
+import "../pages/css/create-product.css"; 
 
 export default function Customer() {
   const [customers, setCustomers] = useState([]);

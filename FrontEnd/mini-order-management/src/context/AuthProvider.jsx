@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContextValue";
 import axiosClient from "../services/axiosClient";
+import { jwtDecode } from "jwt-decode";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -9,20 +10,35 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const init = async () => {
       const token = localStorage.getItem("token");
-      if (!token) {
-        setLoading(false);
-        return;
+
+      if (token) {
+        try {
+          // Decode token để UI có role ngay lập tức
+          const decoded = jwtDecode(token);
+          setUser({
+            id: decoded.Id,
+            username: decoded.Username,
+            role: decoded.Role,
+          });
+        } catch {
+          console.warn("Invalid token, clearing...");
+          localStorage.removeItem("token");
+        }
       }
 
-      try {
-        const res = await axiosClient.get("/Auth/me");
-        setUser(res);
-      } catch {
-        localStorage.removeItem("token");
-        setUser(null);
-      } finally {
-        setLoading(false);
+      // Nếu có token thì fetch thêm thông tin user
+      if (token) {
+        try {
+          const res = await axiosClient.get("/Auth/me");
+          setUser(res);
+          localStorage.setItem("role", res.role);
+        } catch {
+          localStorage.removeItem("token");
+          setUser(null);
+        }
       }
+
+      setLoading(false);
     };
 
     init();

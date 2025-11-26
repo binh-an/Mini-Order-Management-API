@@ -56,7 +56,7 @@ public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateDto dto)
 
         // GET /api/orders -> user chỉ xem của mình, admin xem toàn bộ
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var orders = await _service.GetAllOrdersAsync();
