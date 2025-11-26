@@ -32,106 +32,88 @@ namespace Services.Implementations
 
 
         public async Task<OrderResponseDto> CreateOrderAsync(OrderCreateDto dto)
+{
+    var userIdClaim = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (!int.TryParse(userIdClaim, out var customerId))
+        throw new UnauthorizedAccessException("User not authenticated.");
+
+    var customerExists = await _db.Customers.AnyAsync(c => c.Id == customerId);
+    if (!customerExists)
+        throw new NotFoundException("Customer profile not found.");
+
+    if (dto.Items == null || !dto.Items.Any())
+        throw new BusinessException("Order must contain at least one item.");
+
+    await using var tx = await _db.Database.BeginTransactionAsync();
+    try
+    {
+        var order = new Order
         {
+            CustomerId = customerId,
+            CreatedDate = DateTime.UtcNow,
+            Status = "Pending",
+            OrderDetails = new List<OrderDetail>()
+        };
 
+        decimal total = 0m;
+        var productsToDelete = new List<Product>();
 
+        foreach (var item in dto.Items)
+        {
+            var product = await _productRepo.GetByIdAsync(item.ProductId);
+            if (product == null)
+                throw new NotFoundException($"Product {item.ProductId} not found.");
 
-            var userIdClaim = _httpContext.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!int.TryParse(userIdClaim, out var customerId))
-                throw new UnauthorizedAccessException("User not authenticated.");
+            if (product.StockQuantity < item.Quantity)
+                throw new BusinessException($"Product {product.Name} insufficient stock. Available: {product.StockQuantity}");
 
+            // Snapshot price
+            var unitPrice = product.Price;
 
-            var customerExists = await _db.Customers.AnyAsync(c => c.Id == customerId);
-            if (!customerExists)
-                throw new NotFoundException("Customer profile not found. Please register again.");
-
-
-
-            if (dto.Items == null || !dto.Items.Any())
-                throw new BusinessException("Order must contain at least one item.");
-
-            // 3) Bắt đầu transaction để đảm bảo atomicity (tất cả hoặc không có gì)
-            await using var tx = await _db.Database.BeginTransactionAsync();
-            try
+            // Thêm OrderDetail
+            order.OrderDetails.Add(new OrderDetail
             {
-                // 4) Tạo đối tượng Order mới (chưa lưu DB
-                var order = new Order
-                {
-                    CustomerId = customerId,
-                    CreatedDate = DateTime.UtcNow,
-                    Status = "Pending",
-                    OrderDetails = new List<OrderDetail>()
-                };
+                ProductId = product.Id,
+                Quantity = item.Quantity,
+                UnitPrice = unitPrice
+            });
 
-                decimal total = 0m;
+            // Trừ stock
+            product.StockQuantity -= item.Quantity;
 
-                // 5) Duyệt từng item: kiểm tra product tồn tại, stock đủ, snapshot unitPrice, trừ stock
-                foreach (var item in dto.Items)
-                {
-                    // Get product from repository (DB)
-                    var product = await _productRepo.GetByIdAsync(item.ProductId);
-                    if (product == null)
-                        throw new NotFoundException($"Product {item.ProductId} not found.");
+            if (product.StockQuantity == 0)
+                productsToDelete.Add(product);
+            else
+                await _productRepo.UpdateAsync(product);
 
-                    // Kiểm tra tồn kho
-                    if (product.StockQuantity < item.Quantity)
-                        throw new BusinessException($"Product {product.Name} insufficient stock. Available: {product.StockQuantity}");
-
-                    // Snapshot giá hiện tại
-                    var unitPrice = product.Price;
-
-                    // Tạo OrderDetail (snapshot unitPrice)
-                    var detail = new OrderDetail
-                    {
-                        ProductId = product.Id,
-                        Quantity = item.Quantity,
-                        UnitPrice = unitPrice
-                    };
-
-                    // Thêm detail vào order
-                    order.OrderDetails.Add(detail);
-
-                    // Trừ tồn kho trong entity product
-                    product.StockQuantity -= item.Quantity;
-
-
-                    // await _productRepo.UpdateAsync(product);
-
-                    // Cộng vào tổng tiền
-                    total += unitPrice * item.Quantity;
-                }
-
-                // 6) Gán tổng tiền
-                order.TotalAmount = total;
-
-                // 7) Lưu Order vào DB thông qua repository
-                await _orderRepo.AddAsync(order);
-
-
-                // await _orderRepo.SaveChangesAsync();
-                // 8) Persist thay đổi (cả product updates + order + orderdetails)
-                await _db.SaveChangesAsync(); // hoặc _db.SaveChangesAsync() nếu repo không làm
-
-                // 9) Commit transaction sau khi Save thành công
-                await tx.CommitAsync();
-
-
-                //     reload order với details (Include product) qua repository
-                var savedOrder = await _orderRepo.GetWithDetailsAsync(order.Id);
-
-                // 11) Map entity -> DTO trả về
-                var response = _mapper.Map<OrderResponseDto>(savedOrder);
-
-                return response;
-            }
-            catch (Exception ex)
-            {
-                // 12) Rollback và rethrow để middleware xử lý thành HTTP error phù hợp
-                try { await tx.RollbackAsync(); } catch { }
-                Console.WriteLine("ORDER ERROR: " + ex.Message);
-                throw;
-            }
+            total += unitPrice * item.Quantity;
         }
+
+        order.TotalAmount = total;
+
+        await _orderRepo.AddAsync(order);
+        await _db.SaveChangesAsync(); // save order + update product stock
+
+        // Xóa các product hết stock
+        foreach (var p in productsToDelete)
+        {
+            await _productRepo.DeleteAsync(p.Id);
+        }
+
+        await _db.SaveChangesAsync(); // save các product bị xóa
+        await tx.CommitAsync();
+
+        var savedOrder = await _orderRepo.GetWithDetailsAsync(order.Id);
+        return _mapper.Map<OrderResponseDto>(savedOrder);
+    }
+    catch (Exception ex)
+    {
+        try { await tx.RollbackAsync(); } catch { }
+        Console.WriteLine("ORDER ERROR: " + ex.Message);
+        throw;
+    }
+}
+
 
 
         // Lấy order theo id (kèm details)

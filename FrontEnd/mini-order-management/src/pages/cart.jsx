@@ -1,75 +1,86 @@
 import { useState } from "react";
-import "./css/create-product.css";
 import BasicHeader from "../components/header/basicHeader";
 import CartCard from "../components/cartItem/CartCard";
 import InvoiceModal from "../components/invoiceModal/InvoiceModal";
+import { useCart } from "../context/CartContext";
+import axiosClient from "../services/axiosClient";
 
 export default function Cart() {
-  const [cart, setCart] = useState([
-    { id: 1, name: "Car A", price: 20000, stock: 5, qty: 1, image: "https://via.placeholder.com/150", selected: true },
-    { id: 2, name: "Car B", price: 30000, stock: 3, qty: 2, image: "https://via.placeholder.com/150", selected: false }
-  ]);
+  const { cart, updateCartItem, setCart } = useCart();
+  const [showInvoice, setShowInvoice] = useState(false);
 
   const toggleSelect = (id) => {
-    setCart(cart.map(p =>
-      p.id === id ? { ...p, selected: !p.selected } : p
-    ));
+    const item = cart.find((p) => p.id === id);
+    if (item) updateCartItem(id, { selected: !item.selected });
   };
 
   const increaseQty = (id) => {
-    setCart(cart.map(p =>
-      p.id === id && p.qty < p.stock ? { ...p, qty: p.qty + 1 } : p
-    ));
+    const item = cart.find((p) => p.id === id);
+    if (item && item.qty < item.stockQuantity) updateCartItem(id, { qty: item.qty + 1 });
   };
 
   const decreaseQty = (id) => {
-    setCart(cart.map(p =>
-      p.id === id && p.qty > 1 ? { ...p, qty: p.qty - 1 } : p
-    ));
+    const item = cart.find((p) => p.id === id);
+    if (item && item.qty > 1) updateCartItem(id, { qty: item.qty - 1 });
   };
 
-  const totalPrice = cart
-    .filter(p => p.selected)
-    .reduce((t, p) => t + p.price * p.qty, 0);
-
-  const [showInvoice, setShowInvoice] = useState(false);
+  const totalPrice = cart.filter((p) => p.selected).reduce((t, p) => t + p.price * p.qty, 0);
 
   const handleOrderClick = () => {
-  // chỉ hiện popup nếu có ít nhất 1 sản phẩm được chọn
-  if (cart.some(p => p.selected)) {
-    setShowInvoice(true);
-  } else {
-    alert("Vui lòng chọn ít nhất 1 sản phẩm");
-  }
-};
+    if (cart.some((p) => p.selected)) setShowInvoice(true);
+    else alert("Vui lòng chọn ít nhất 1 sản phẩm");
+  };
 
-  const handleAccept = () => {
-  // trừ stock theo qty của những sản phẩm được chọn
-  setCart(prevCart =>
-    prevCart.map(p => 
-      p.selected ? { ...p, stock: p.stock - p.qty, qty: 1, selected: false } : p
-    )
-  );
+  const handleAccept = async () => {
+    // Lọc ra các sản phẩm được chọn
+    const selectedItems = cart.filter(p => p.selected);
 
-  setShowInvoice(false);
-  // redirect sang trang /order
-  window.location.href = "/order";
-};
+    if (selectedItems.length === 0) {
+      alert("Vui lòng chọn ít nhất 1 sản phẩm");
+      return;
+    }
 
+    // Tạo DTO theo BE yêu cầu
+    const orderDto = {
+      CustomerId: 1, // TODO: lấy từ user hiện tại
+      Items: selectedItems.map(p => ({
+        ProductId: p.id,
+        Quantity: p.qty
+      }))
+    };
 
-  const handleCancel = () => {
-  setShowInvoice(false);
-};
-  
+    try {
+      const res = await axiosClient.post("/orders", orderDto);
+
+      // Sau khi tạo order thành công
+      alert("Order created successfully! Order ID: " + res.id);
+
+      // Update lại stock trong cart context
+      setCart(prev =>
+        prev.map(p =>
+          p.selected
+            ? { ...p, stockQuantity: p.stockQuantity - p.qty, qty: 1, selected: false }
+            : p
+        )
+      );
+
+      setShowInvoice(false);
+      window.location.href = "/order"; // hoặc chuyển trang khác
+    } catch (err) {
+      console.error("Create order failed:", err.response?.data || err);
+      alert("Không thể tạo order!");
+    }
+  };
+
+  const handleCancel = () => setShowInvoice(false);
 
   return (
     <div className="create-product-page">
-      <BasicHeader/>
+      <BasicHeader />
 
       <main className="product-main">
-
         <div className="product-list">
-          {cart.map(p => (
+          {cart.map((p) => (
             <CartCard
               key={p.id}
               p={p}
@@ -80,20 +91,16 @@ export default function Cart() {
           ))}
         </div>
 
-        {/* FOOTER */}
         <div className="cart-footer">
           <div className="cart-total">Total: ${totalPrice}</div>
-          <button className="cart-order-btn" onClick={handleOrderClick}>Order</button>
+          <button className="cart-order-btn" onClick={handleOrderClick}>
+            Order
+          </button>
         </div>
 
         {showInvoice && (
-          <InvoiceModal
-            cart={cart}
-            handleAccept={handleAccept}
-            handleCancel={handleCancel}
-          />
+          <InvoiceModal cart={cart} handleAccept={handleAccept} handleCancel={handleCancel} />
         )}
-  
       </main>
     </div>
   );

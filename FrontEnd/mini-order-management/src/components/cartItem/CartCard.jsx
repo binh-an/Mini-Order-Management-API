@@ -17,7 +17,7 @@ export default function CartCard({ p, toggleSelect, decreaseQty, increaseQty}){
 
             <h3 className="cart-name">{p.name}</h3>
             <p className="cart-text">Price: ${p.price}</p>
-            <p className="cart-text">Stock: {p.stock}</p>
+            <p className="cart-text">Stock: {p.stockQuantity}</p>
 
             <div className="cart-qty-vertical">
             <button onClick={() => decreaseQty(p.id)}>-</button>

@@ -42,6 +42,13 @@ export default function BasicHeader() {
           Order
         </NavLink>
 
+        <NavLink
+          to="/order-list"
+          className={({ isActive }) => "icon link" + (isActive ? " active" : "")}
+        >
+          Order List
+        </NavLink>
+
         {/* CREATE — xử lý click thủ công */}
         <span 
           onClick={handleCreateClick}

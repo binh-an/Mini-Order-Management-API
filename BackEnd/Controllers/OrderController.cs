@@ -65,14 +65,19 @@ public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateDto dto)
 
         // PATCH /api/orders/{id}/status -> chỉ admin sửa trạng thái
         [HttpPatch("{id:int}/status")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromBody] string status)
-        {
+[Authorize(Roles = "Admin")]
+public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
+{
+    var ok = await _service.UpdateOrderStatusAsync(id, dto.Status);
+    if (!ok) return NotFound();
+    return NoContent();
+}
 
-            var ok = await _service.UpdateOrderStatusAsync(id, status);
-            if (!ok) return NotFound();
-            return NoContent();
-        }
+public class StatusUpdateDto
+{
+    public string Status { get; set; }
+}
+
 
         // DELETE /api/orders/{id} -> chỉ admin xoá
         [HttpDelete("{id:int}")]
