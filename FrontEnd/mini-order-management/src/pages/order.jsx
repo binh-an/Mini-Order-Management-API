@@ -33,7 +33,7 @@ export default function Order() {
       return;
     }
     const filtered = allProducts.filter(p =>
-      p.id.toString().includes(value.trim())
+      p.name.toLowerCase().includes(value.trim())
     );
     setProducts(filtered);
   };

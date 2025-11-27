@@ -30,7 +30,7 @@ export default function AddProductHeader({ openAddProductPopup, onSearch }) {
         </NavLink>
 
         <NavLink to="/order-list" className={({isActive}) => "icon link" + (isActive ? " active" : "")}>
-          Lists
+          Order List
         </NavLink>
 
         <NavLink to="/create-product" className={({ isActive }) => "icon link" + (isActive ? " active" : "")}>

@@ -88,8 +88,8 @@ export default function OrderList() {
           <table className="customer-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Customer</th>
+                <th>Product</th>
                 <th>Status</th>
                 <th>Total</th>
                 <th>Created Date</th>
@@ -99,8 +99,8 @@ export default function OrderList() {
             <tbody>
               {orders.map(order => (
                 <tr key={order.id}>
-                  <td>{order.id}</td>
                   <td>{order.customerId}</td>
+                  <td>{order.items?.map(i => i.productName).join(", ")}</td>
                   <td>{order.status}</td>
                   <td>${order.totalAmount}</td>
                   <td>{new Date(order.createdDate).toLocaleString()}</td>

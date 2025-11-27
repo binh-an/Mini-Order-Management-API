@@ -32,7 +32,7 @@ export default function BasicHeader( {onSearch}) {
         <div className="search-box">
           <input 
             type="text" 
-            placeholder="Search by ID..." 
+            placeholder="Search ..." 
             onChange={(e) => onSearch && onSearch(e.target.value)}
           />
         </div>

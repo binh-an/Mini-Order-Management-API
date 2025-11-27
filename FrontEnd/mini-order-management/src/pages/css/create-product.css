@@ -436,6 +436,22 @@
   white-space: nowrap; /* tránh xuống dòng */
 }
 
+.customer-table th:first-child,
+.customer-table td:first-child {
+  width: 80px; /* đặt width cố định cho cột ID */
+  text-align: center;
+}
+
+.customer-table th:nth-child(3),
+.customer-table td:nth-child(3) {
+  width: 200px; 
+}
+
+.customer-table th:nth-child(4),
+.customer-table td:nth-child(4) {
+  width: 200px; 
+}
+
 .customer-actions {
   display: flex;
   justify-content: flex-end;  /* đẩy sang phải */
