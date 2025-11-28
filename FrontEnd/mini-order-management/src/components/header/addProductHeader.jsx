@@ -1,9 +1,19 @@
 import { NavLink } from "react-router-dom";
 import { IoIosAdd, IoIosPersonAdd, IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
-import { RxAvatar } from "react-icons/rx";
+import UserMenu from "../userInfo";
+import { AuthContext } from "../../context/AuthContextValue";
 
 export default function AddProductHeader({ openAddProductPopup, onSearch }) {
+  const user = {
+    role: localStorage.getItem("role"),
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
     <header className="app-header">
       <div className="left-header">
@@ -47,7 +57,7 @@ export default function AddProductHeader({ openAddProductPopup, onSearch }) {
 
         <span className="icon"><IoIosHelpCircleOutline /></span>
         <span className="icon"><GrLanguage /></span>
-        <span className="icon"><RxAvatar /></span>
+        <UserMenu user={user} onLogout={logout} />
       </div>
     </header>
   );
