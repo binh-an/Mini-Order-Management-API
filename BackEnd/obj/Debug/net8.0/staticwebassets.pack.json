@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\wwwroot\\images\\6289f3a1-7a0d-4320-8c55-b19c77109742.png",
+      "PackagePath": "staticwebassets\\images\\6289f3a1-7a0d-4320-8c55-b19c77109742.png"
+    },
+    {
+      "Id": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\wwwroot\\images\\9c2d0194-f2ab-4595-aab6-2375c7350cc2.png",
+      "PackagePath": "staticwebassets\\images\\9c2d0194-f2ab-4595-aab6-2375c7350cc2.png"
+    },
+    {
+      "Id": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\wwwroot\\images\\e090add5-4de3-450d-a947-da4734c808e1.png",
+      "PackagePath": "staticwebassets\\images\\e090add5-4de3-450d-a947-da4734c808e1.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BackEnd.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BackEnd.props",
+      "PackagePath": "build\\BackEnd.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BackEnd.props",
+      "PackagePath": "buildMultiTargeting\\BackEnd.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BackEnd.props",
+      "PackagePath": "buildTransitive\\BackEnd.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -38,7 +38,7 @@ namespace Services
                 Username = model.Username,
                 PasswordHash = hashed,
                 Email = model.Email,
-                Role = "User"
+                Role = "Admin"
             };
 
             _db.Users.Add(user);

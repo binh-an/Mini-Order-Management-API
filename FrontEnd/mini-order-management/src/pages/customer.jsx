@@ -41,6 +41,7 @@ export default function Customer() {
 
   const handleAddCustomer = async (e) => {
     e.preventDefault();
+    console.log("Token hiện tại:", localStorage.getItem("token"));
     try {
       const newCustomer = await axiosClient.post("/customers", formCustomer);
       setCustomers([newCustomer, ...customers]);
