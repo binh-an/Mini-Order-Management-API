@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import BasicHeader from "../components/header/basicHeader";
-import axiosClient from "../services/axiosClient";
 import { useCart } from "../context/CartContext";
+import { getProducts } from "../api/ProductApi";
 
 export default function Order() {
   const [products, setProducts] = useState([]);
@@ -12,7 +12,7 @@ export default function Order() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await axiosClient.get("/products");
+        const data = await getProducts();
         setProducts(data);
         setAllProducts(data)
       } catch (err) {
@@ -41,7 +41,6 @@ export default function Order() {
   return (
     <div className="create-product-page">
       <BasicHeader onSearch={handleSearch} />
-
 
       <main className="product-main">
         <div className="product-list">

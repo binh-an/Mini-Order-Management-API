@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "./css/login.css";
+import "../../style/login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import AuthHeader from "../components/header/authHeader";
-import axiosClient from "../services/axiosClient";
+import AuthHeader from "../../components/header/authHeader";
+import { register, login } from "../../api/AuthApi";
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -15,15 +15,16 @@ export default function CreateAccount() {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!agree) return;
+
     try {
       //Register
-      await axiosClient.post("/Auth/register", { username, email, password });
-      console.log("Register success");
+      const registerRes = await register(username, email, password);
+      console.log("Register success", registerRes);
 
       await new Promise(resolve => setTimeout(resolve, 300));
 
       //Login after register
-      const loginRes = await axiosClient.post("/Auth/login", { username, password });
+      const loginRes = await login(username, password);
       console.log("Full login response:", loginRes);
       if (!loginRes.token) throw new Error("Login fail sau register");
 

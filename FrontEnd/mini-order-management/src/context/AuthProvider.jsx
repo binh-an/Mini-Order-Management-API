@@ -9,11 +9,11 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const init = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token"); // Lấy token
 
       if (token) {
         try {
-          // Decode token để UI có role ngay lập tức
+          // Decode token để lấy thông tin user cơ bản
           const decoded = jwtDecode(token);
           setUser({
             id: decoded.Id,
@@ -37,6 +37,12 @@ export default function AuthProvider({ children }) {
           setUser(null);
         }
       }
+
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      } 
 
       setLoading(false);
     };

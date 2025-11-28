@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "./css/login.css";
+import "../../style/login.css";
 import { Link, useNavigate } from "react-router-dom";
-import AuthHeader from "../components/header/authHeader";
-import axiosClient from "../services/axiosClient";
+import AuthHeader from "../../components/header/authHeader";
 import { jwtDecode } from "jwt-decode";
+import { login } from "../../api/AuthApi";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -16,16 +16,11 @@ export default function Login() {
 
     try {
       console.log("Sending login request...");
-      // Gửi login request
-      const response = await axiosClient.post("/Auth/login", {
-        username,
-        password,
-      });
+      
+      const response = await login(username, password);
 
-      // Debug response
       console.log("Raw response:", response);
 
-      // Nếu backend trả token nằm trong response.token
       const token = response.token || response.data?.token;
 
       if (!token) {

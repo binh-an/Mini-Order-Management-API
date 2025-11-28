@@ -1,6 +1,6 @@
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
-import "../../pages/css/login.css";
+import "../../style/login.css";
 
 export default function AuthHeader() {
   return (

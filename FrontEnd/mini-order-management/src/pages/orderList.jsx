@@ -1,7 +1,7 @@
 // src/pages/OrderList.jsx
 import { useState, useEffect } from "react";
-import axiosClient from "../services/axiosClient";
 import BasicHeader from "../components/header/basicHeader";
+import { getOrders, deleteOrder, updateOrderStatus } from "../api/OrderApi";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -19,7 +19,7 @@ export default function OrderList() {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       let response;
 
-      response = await axiosClient.get("/orders", config);
+      response = await getOrders(config);
 
       console.log("Fetch response:", response);
       setOrders(response || []);
@@ -38,7 +38,7 @@ export default function OrderList() {
     if (!window.confirm("Bạn có chắc muốn xóa đơn hàng này?")) return;
 
     try {
-      await axiosClient.delete(`/orders/${orderId}`);
+      await deleteOrder(orderId);
       setOrders(orders.filter(o => o.id !== orderId));
     } catch (err) {
       console.error("Delete order failed:", err.response?.data || err);
@@ -62,11 +62,12 @@ export default function OrderList() {
   if (!currentOrder) return;
 
   try {
-    await axiosClient.patch(
-      `/orders/${currentOrder.id}/status`,
-      { status: newStatus },
-      { headers: { "Content-Type": "application/json" } } // bắt buộc
-    );
+    await updateOrderStatus(currentOrder.id, { status: newStatus });
+    // await axiosClient.patch(
+    //   `/orders/${currentOrder.id}/status`,
+    //   { status: newStatus },
+    //   { headers: { "Content-Type": "application/json" } } // bắt buộc
+    // );
 
     setOrders(orders.map(o => o.id === currentOrder.id ? { ...o, status: newStatus } : o));
     closeEditStatusPopup();

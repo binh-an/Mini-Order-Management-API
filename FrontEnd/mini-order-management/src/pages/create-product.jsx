@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import "./css/create-product.css";
+import "../style/create-product.css";
 import AddProductHeader from "../components/header/addProductHeader";
 import ProductCard from "../components/productCard/ProductCard";
 import AddProductPopup from "../components/productCard/AddProductPopup";
 import UpdateProductPopup from "../components/productCard/UpdateProductPopup";
-import axiosClient from "../services/axiosClient";
+import { getProducts, postProduct, updateProduct, deleteProduct, getProductById } from "../api/ProductApi";
 
 export default function CreateProduct() {
   const [products, setProducts] = useState([]);
@@ -26,7 +26,7 @@ export default function CreateProduct() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await axiosClient.get("/products");
+        const data = await getProducts();
         setProducts(data);
       } catch (err) {
         console.error("Fetch products failed:", err.response?.data || err);
@@ -75,7 +75,7 @@ export default function CreateProduct() {
         formData.append("image", formProduct.image);
       }
 
-      const product = await axiosClient.post("/products", formData);
+      const product = await postProduct(formData);
 
       setProducts([product, ...products]);
       closeAddProductPopup();
@@ -118,10 +118,7 @@ export default function CreateProduct() {
         formData.append("image", formProduct.image);
       }
 
-      const updatedProduct = await axiosClient.put(
-        `/products/${currentProduct.id}`,
-        formData
-      );
+      const updatedProduct = await updateProduct(currentProduct.id, formData);
 
       setProducts(
         products.map((p) =>
@@ -146,7 +143,7 @@ export default function CreateProduct() {
 
   const handleDeleteProduct = async () => {
     try {
-      await axiosClient.delete(`/products/${currentProduct.id}`);
+      await deleteProduct(currentProduct.id);
       setProducts(products.filter((p) => p.id !== currentProduct.id));
       closeDeleteConfirm();
     } catch (err) {
@@ -172,11 +169,11 @@ export default function CreateProduct() {
     try {
       if (!id) {
         // Reset lại toàn bộ sản phẩm
-        const data = await axiosClient.get("/products");
+        const data = await getProducts();
         setProducts(data);
         return;
       }
-      const p = await axiosClient.get(`/products/${id}`);
+      const p = await getProductById(id);
       setProducts([p]);
     } catch (err) {
       alert("Không tìm thấy sản phẩm!");

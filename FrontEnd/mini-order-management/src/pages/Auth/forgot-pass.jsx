@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./css/login.css"; 
+import "../../style/login.css"; 
 import { useNavigate } from "react-router-dom";
-import AuthHeader from "../components/header/authHeader";
+import AuthHeader from "../../components/header/authHeader";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");

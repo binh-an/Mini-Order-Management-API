@@ -1,6 +1,4 @@
 // src/components/customer/UpdateCustomerPopup.jsx
-import React from "react";
-
 export default function UpdateCustomerPopup({ formCustomer, setFormCustomer, handleUpdateCustomer, closeUpdateCustomerPopup }) {
   return (
     <div className="modal">

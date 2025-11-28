@@ -1,10 +1,10 @@
 // src/pages/Customer.jsx
 import { useState, useEffect } from "react";
-import axiosClient from "../services/axiosClient";
 import AddCustomerPopup from "../components/customer/AddCustomerPopup";
 import UpdateCustomerPopup from "../components/customer/UpdateCustomerPopup";
 import CustomerHeader from "../components/header/customerHeader";
-import "../pages/css/create-product.css"; 
+import "../style/create-product.css"; 
+import { getCustomers, postCustomer, updateCustomer, deleteCustomer } from "../api/CustomerApi";
 
 export default function Customer() {
   const [customers, setCustomers] = useState([]);
@@ -23,7 +23,7 @@ export default function Customer() {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const data = await axiosClient.get("/customers");
+        const data = await getCustomers();
         setCustomers(data);
       } catch (err) {
         console.error("Fetch customers failed:", err.response?.data || err);
@@ -42,7 +42,7 @@ export default function Customer() {
   const handleAddCustomer = async (e) => {
     e.preventDefault();
     try {
-      const newCustomer = await axiosClient.post("/customers", formCustomer);
+      const newCustomer = await postCustomer(formCustomer);
       setCustomers([newCustomer, ...customers]);
       closeAddCustomerPopup();
     } catch (err) {
@@ -60,11 +60,11 @@ export default function Customer() {
   const handleUpdateCustomer = async (e) => { e.preventDefault(); 
     try 
     { 
-        axiosClient.put(`/customers/${currentCustomer.id}`, formCustomer)
+        updateCustomer(currentCustomer.id, formCustomer);
  
         //Update local state trực tiếp, tránh crash nếu data undefined 
-      setCustomers(customers.map(c => c.id === currentCustomer.id ? { ...c, ...formCustomer } : c )); 
-      closeUpdateCustomerPopup(); 
+        setCustomers(customers.map(c => c.id === currentCustomer.id ? { ...c, ...formCustomer } : c )); 
+        closeUpdateCustomerPopup(); 
     } 
     catch (err) 
     { console.error("Update customer failed:", err.response?.data || err);
@@ -76,7 +76,7 @@ export default function Customer() {
   const handleDeleteCustomer = async (customerId) => {
     if (!window.confirm("Bạn có chắc muốn xóa khách hàng này?")) return;
     try {
-      await axiosClient.delete(`/customers/${customerId}`);
+      await deleteCustomer(customerId);
       setCustomers(customers.filter(c => c.id !== customerId));
     } catch (err) {
       console.error("Delete customer failed:", err.response?.data || err);
