@@ -61,7 +61,14 @@ export default function Cart() {
             ? { ...p, stockQuantity: p.stockQuantity - p.qty, qty: 1, selected: false }
             : p
         )
+        .filter(p => p.stockQuantity > 0)
       );
+
+      // Xóa các sản phẩm đã order khỏi cart
+      const newCart = cart.filter(p => !p.selected);
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+
 
       setShowInvoice(false);
       window.location.href = "/order"; // hoặc chuyển trang khác
