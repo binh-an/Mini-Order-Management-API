@@ -15,7 +15,7 @@ export default function Customer() {
   const [formCustomer, setFormCustomer] = useState({
     name: "",
     email: "",
-    phoneNumber: "",
+    PhoneNumber: "",
     address: "",
   });
 
@@ -34,7 +34,7 @@ export default function Customer() {
 
   // Add Customer
   const openAddCustomerPopup = () => {
-    setFormCustomer({ name: "", email: "", phoneNumber: "", address: "" });
+    setFormCustomer({ name: "", email: "", PhoneNumber: "", address: "" });
     setShowAddCustomer(true);
   };
   const closeAddCustomerPopup = () => setShowAddCustomer(false);
