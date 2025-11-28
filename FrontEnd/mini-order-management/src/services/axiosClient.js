@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:5273/api", // đổi đúng port backend của em
+  baseURL: "http://localhost:5273/api", 
   withCredentials: false,
 });
 

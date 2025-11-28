@@ -2,14 +2,19 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
-import { RxAvatar } from "react-icons/rx";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextValue";
+import UserMenu from "../userInfo";
 
-export default function BasicHeader() {
+export default function BasicHeader( {onSearch}) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
 
   const handleCreateClick = () => {  
     console.log(user);
@@ -25,7 +30,18 @@ export default function BasicHeader() {
 
   return (
     <header className="app-header">
-      <div className="logo">Car Showroom</div>
+      <div className="left-header">
+        <div className="logo">Car Showroom</div>
+
+        {/* SEARCH BOX */}
+        <div className="search-box">
+          <input 
+            type="text" 
+            placeholder="Search ..." 
+            onChange={(e) => onSearch && onSearch(e.target.value)}
+          />
+        </div>
+      </div>
 
       <div className="header-icons">
         <NavLink 
@@ -60,7 +76,7 @@ export default function BasicHeader() {
 
         <span className="icon"><IoIosHelpCircleOutline /></span>
         <span className="icon"><GrLanguage /></span>
-        <span className="icon"><RxAvatar /></span>
+        <UserMenu user={user} onLogout={logout} />
       </div>
     </header>
   );

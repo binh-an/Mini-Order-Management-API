@@ -1,50 +1,53 @@
 // src/context/CartContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
 
+// Tạo context
 const CartContext = createContext();
 
+// Provider
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-  // load cart từ localStorage khi mount
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
-  }, []);
-
-  // lưu cart vào localStorage mỗi khi cart thay đổi
+  // Lưu cart vào localStorage mỗi khi cart thay đổi
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Thêm sản phẩm vào cart
   const addToCart = (product) => {
     setCart((prev) => {
       const index = prev.findIndex((p) => p.id === product.id);
       if (index !== -1) {
-        const newCart = prev.map((p, i) =>
+        return prev.map((p, i) =>
           i === index ? { ...p, qty: p.qty + 1 } : p
         );
-        return newCart;
       } else {
         return [...prev, { ...product, qty: 1, selected: true }];
       }
     });
   };
 
-
+  // Xóa sản phẩm khỏi cart
   const removeFromCart = (id) => {
-    setCart(cart.filter((p) => p.id !== id));
+    setCart((prev) => prev.filter((p) => p.id !== id));
   };
 
+  // Cập nhật thông tin sản phẩm trong cart
   const updateCartItem = (id, updates) => {
     setCart((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
   };
 
   return (
-    <CartContext.Provider value={{ cart, setCart, addToCart, removeFromCart, updateCartItem }}>
+    <CartContext.Provider
+      value={{ cart, setCart, addToCart, removeFromCart, updateCartItem }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => useContext(CartContext);

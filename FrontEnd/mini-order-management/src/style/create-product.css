@@ -1,0 +1,565 @@
+.create-product-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: white;
+  box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+.header-icons .icon {
+  margin-left: 15px;
+  cursor: pointer;
+  padding-bottom: 5px;
+  text-decoration: none;
+  position: relative;
+  color: black;
+}
+
+.header-icons .icon.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #0057ff;
+  border-radius: 2px;
+}
+
+.product-main {
+  padding: 20px;
+  color: black;
+}
+
+/* Grid responsive cho các card */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  padding: 10px;
+}
+
+/* Card */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  height: 300px;
+  width: 100%; /* co dãn theo grid */
+}
+
+/* Phần trên: hình + description */
+.card-top {
+  display: flex;
+  height: 60%;
+}
+
+.card-top img {
+  width: 60%;
+  object-fit: contain;
+  background: #f5f5f5; 
+}
+
+.card-top .description {
+  width: 40%;
+  padding: 10px;
+  font-size: 0.7rem;
+  height: 100%;
+  overflow-y: auto;
+
+  /* Ẩn scrollbar mặc định */
+  scrollbar-width: none; /* Firefox */
+}
+
+.card-top .description::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}
+
+
+/* Phần dưới: 1/3 – 2/3 */
+.card-bottom {
+  display: flex;
+  height: 40%;
+}
+
+.card-bottom .left-side {
+  width: 30%;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+
+.card-bottom .left-side button {
+  padding: 5px 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.card-bottom .right-side {
+  width: 70%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: left;
+}
+
+/* Modal và form thêm sản phẩm */
+.modal {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content {
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  width:300px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width:95%;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  background-color: rgb(227, 227, 227);
+  margin: 5px;
+  color: grey;
+}
+
+.modal-buttons {
+  display:flex;
+  justify-content: space-between;
+  margin-top:10px;
+}
+
+.modal-buttons button {
+  padding:8px 12px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.modal-buttons button[type="submit"] {
+  background-color: gray;
+  color:white;
+}
+
+.modal-buttons button[type="button"] {
+  background-color: lightgray;
+}
+
+/* Upload hình */
+.image-preview {
+  width: 100%;
+  height: 200px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  background: #fafafa; 
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.image-preview .placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.card-bottom .right-side h3,
+.card-bottom .right-side p,
+.card-bottom .left-side p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------ */
+.left-side-cart {
+  width: 30%;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.left-side-cart:hover {
+  background: #eaf2ff;
+}
+
+.left-side-cart p {
+  margin: 5px 0 0 0;
+  font-size: 0.85rem;
+}
+
+.left-side-cart .cart-icon {
+  font-size: 28px;
+  color: #0057ff;
+}
+
+/* ------------------------------------------------- */
+/* CART PAGE */
+/* --- CART CARD VERTICAL --- */
+.create-product-page .cart-card-vertical {
+  width: 90%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;      /* từ trên xuống */
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.cart-checkbox-vertical {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transform: scale(1.3);
+}
+
+.cart-image-vertical {
+  width: 90%;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.cart-name {
+  margin: 5px 0 0 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.cart-text {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.cart-qty-vertical {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-qty-vertical button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.cart-qty-vertical span {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.create-product-page .cart-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 50px;
+  background: white; /* nếu muốn nền */
+  padding: 10px 20px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  width: 100%; /* hoặc width của page */
+}
+
+/* _______________________________________________ */
+.invoice-modal {
+  width: 500px;
+  max-width: 90%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.invoice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.invoice-buttons button {
+  padding: 8px 12px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.accept-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Customer table responsive full width */
+.customer-table {
+  width: 100%;           /* chiếm hết chiều ngang cha */
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 700px;      /* nếu màn hình nhỏ, xuất hiện scroll ngang */
+}
+
+.customer-table th,
+.customer-table td {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.customer-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.customer-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Scroll ngang khi màn hình nhỏ */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Nút Action gọn gàng, không hover, không hiệu ứng */
+.customer-table td:last-child {
+  display: flex;
+  gap: 10px;       /* khoảng cách giữa 2 nút */
+  white-space: nowrap; /* tránh xuống dòng */
+}
+
+.customer-table td button {
+  margin: 0;       /* reset margin */
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #4CAF50; /* Edit mặc định */
+  color: white;
+}
+
+/* Delete button */
+.customer-table td button.delete-btn {
+  background-color: #f44336;
+}
+
+.customer-table th:last-child,
+.customer-table td:last-child {
+  width: 180px; /* đặt width cố định vừa đủ cho 2 nút */
+  text-align: center; /* căn giữa */
+  white-space: nowrap; /* tránh xuống dòng */
+}
+
+.customer-table th:first-child,
+.customer-table td:first-child {
+  width: 80px; /* đặt width cố định cho cột ID */
+  text-align: center;
+}
+
+.customer-table th:nth-child(3),
+.customer-table td:nth-child(3) {
+  width: 200px; 
+}
+
+.customer-table th:nth-child(4),
+.customer-table td:nth-child(4) {
+  width: 200px; 
+}
+
+.customer-actions {
+  display: flex;
+  justify-content: flex-end;  /* đẩy sang phải */
+  gap: 10px;                  /* khoảng cách giữa các nút */
+}
+
+.customer-actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+  display: flex;
+}
+
+.customer-actions button.update-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.customer-actions button.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 120px;
+  padding: 8px 15px;
+  padding-left: 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  background: #f7f7f7;
+  transition: 0.2s;
+  color: black;
+}
+
+.search-box input:focus {
+  background: white;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.search-box button {
+  padding: 5px 8px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: rgb(36, 36, 36);
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.user-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  width: 220px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  z-index: 999;
+  animation: fadeIn 0.18s ease-out;
+  color: black;
+}
+
+.user-row {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.logout-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #e63946;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background: #c62828;
+}
+
+.avatar-icon {
+  cursor: pointer;
+}

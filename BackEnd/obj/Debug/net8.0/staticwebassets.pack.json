@@ -13,6 +13,17 @@
       "PackagePath": "staticwebassets\\images\\e090add5-4de3-450d-a947-da4734c808e1.png"
     },
     {
+<<<<<<< HEAD
+=======
+      "Id": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\wwwroot\\images\\products\\4102f1f0-e54d-48d4-ae3c-241fa4c4825e.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\4102f1f0-e54d-48d4-ae3c-241fa4c4825e.jpg"
+    },
+    {
+      "Id": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\wwwroot\\images\\products\\6493a5f2-fe72-4468-a96e-25d9d8f01a0f.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\6493a5f2-fe72-4468-a96e-25d9d8f01a0f.jpg"
+    },
+    {
+>>>>>>> 19c94681405b942dc3696407bba8748c8efb6a47
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BackEnd.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

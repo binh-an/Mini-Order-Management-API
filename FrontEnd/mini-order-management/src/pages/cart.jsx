@@ -3,7 +3,7 @@ import BasicHeader from "../components/header/basicHeader";
 import CartCard from "../components/cartItem/CartCard";
 import InvoiceModal from "../components/invoiceModal/InvoiceModal";
 import { useCart } from "../context/CartContext";
-import axiosClient from "../services/axiosClient";
+import { postOrder } from "../api/OrderApi";
 
 export default function Cart() {
   const { cart, updateCartItem, setCart } = useCart();
@@ -40,9 +40,8 @@ export default function Cart() {
       return;
     }
 
-    // Tạo DTO theo BE yêu cầu
     const orderDto = {
-      CustomerId: 1, // TODO: lấy từ user hiện tại
+      CustomerId: 1,
       Items: selectedItems.map(p => ({
         ProductId: p.id,
         Quantity: p.qty
@@ -50,7 +49,7 @@ export default function Cart() {
     };
 
     try {
-      const res = await axiosClient.post("/orders", orderDto);
+      const res = await postOrder(orderDto);
 
       // Sau khi tạo order thành công
       alert("Order created successfully! Order ID: " + res.id);
@@ -62,7 +61,14 @@ export default function Cart() {
             ? { ...p, stockQuantity: p.stockQuantity - p.qty, qty: 1, selected: false }
             : p
         )
+        .filter(p => p.stockQuantity > 0)
       );
+
+      // Xóa các sản phẩm đã order khỏi cart
+      const newCart = cart.filter(p => !p.selected);
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+
 
       setShowInvoice(false);
       window.location.href = "/order"; // hoặc chuyển trang khác

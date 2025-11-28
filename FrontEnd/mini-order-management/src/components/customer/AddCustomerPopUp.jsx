@@ -1,6 +1,4 @@
 // src/components/customer/AddCustomerPopup.jsx
-import React from "react";
-
 export default function AddCustomerPopup({ formCustomer, setFormCustomer, handleAddCustomer, closeAddCustomerPopup }) {
   return (
     <div className="modal">

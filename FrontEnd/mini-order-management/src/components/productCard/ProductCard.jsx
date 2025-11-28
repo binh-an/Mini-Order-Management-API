@@ -7,7 +7,7 @@ export default function ProductCard({ p, openUpdatePopup, openDeleteConfirm }) {
             p.preview ||
             (p.image instanceof File
               ? URL.createObjectURL(p.image)
-              : p.image) ||
+              : p.imageUrl) ||                  
             "https://via.placeholder.com/150"
           }
           alt={p.name}
@@ -27,7 +27,7 @@ export default function ProductCard({ p, openUpdatePopup, openDeleteConfirm }) {
         </div>
 
         <div className="right-side">
-          <h3>Name: {p.name}</h3>
+          <h3>{p.name}</h3>
           <p>Price: ${p.price}</p>
           <p>Stock: {p.stockQuantity}</p>
         </div>

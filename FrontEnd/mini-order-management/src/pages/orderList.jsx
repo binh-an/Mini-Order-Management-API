@@ -1,7 +1,7 @@
 // src/pages/OrderList.jsx
 import { useState, useEffect } from "react";
-import axiosClient from "../services/axiosClient";
 import BasicHeader from "../components/header/basicHeader";
+import { getOrders, deleteOrder, updateOrderStatus } from "../api/OrderApi";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -19,14 +19,10 @@ export default function OrderList() {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       let response;
 
-      if (role === "Admin") {
-        response = await axiosClient.get("/orders", config);
-      } else {
-        response = await axiosClient.get("/orders/myorders", config);
-      }
+      response = await getOrders(config);
 
-      console.log("Fetch response:", response.data);
-      setOrders(response.data || []);
+      console.log("Fetch response:", response);
+      setOrders(response || []);
     } catch (err) {
       console.error("Fetch orders failed:", err.response?.data || err);
       alert("Không thể tải danh sách đơn hàng.");
@@ -42,7 +38,7 @@ export default function OrderList() {
     if (!window.confirm("Bạn có chắc muốn xóa đơn hàng này?")) return;
 
     try {
-      await axiosClient.delete(`/orders/${orderId}`);
+      await deleteOrder(orderId);
       setOrders(orders.filter(o => o.id !== orderId));
     } catch (err) {
       console.error("Delete order failed:", err.response?.data || err);
@@ -66,11 +62,12 @@ export default function OrderList() {
   if (!currentOrder) return;
 
   try {
-    await axiosClient.patch(
-      `/orders/${currentOrder.id}/status`,
-      { status: newStatus },
-      { headers: { "Content-Type": "application/json" } } // bắt buộc
-    );
+    await updateOrderStatus(currentOrder.id, { status: newStatus });
+    // await axiosClient.patch(
+    //   `/orders/${currentOrder.id}/status`,
+    //   { status: newStatus },
+    //   { headers: { "Content-Type": "application/json" } } // bắt buộc
+    // );
 
     setOrders(orders.map(o => o.id === currentOrder.id ? { ...o, status: newStatus } : o));
     closeEditStatusPopup();
@@ -92,8 +89,8 @@ export default function OrderList() {
           <table className="customer-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Customer</th>
+                <th>Product</th>
                 <th>Status</th>
                 <th>Total</th>
                 <th>Created Date</th>
@@ -103,15 +100,25 @@ export default function OrderList() {
             <tbody>
               {orders.map(order => (
                 <tr key={order.id}>
-                  <td>{order.id}</td>
                   <td>{order.customerId}</td>
+                  <td>{order.items?.map(i => i.productName).join(", ")}</td>
                   <td>{order.status}</td>
                   <td>${order.totalAmount}</td>
                   <td>{new Date(order.createdDate).toLocaleString()}</td>
                   {role === "Admin" && (
                     <td>
-                      <button onClick={() => openEditStatusPopup(order)}>Edit Status</button>
-                      <button onClick={() => handleDeleteOrder(order.id)}>Delete</button>
+                      <button 
+                        className="update-btn" 
+                        onClick={() => openEditStatusPopup(order)}
+                      >
+                        Edit Status
+                      </button>
+                      <button 
+                        className="delete-btn" 
+                        onClick={() => handleDeleteOrder(order.id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   )}
                 </tr>

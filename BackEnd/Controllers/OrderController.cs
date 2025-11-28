@@ -15,7 +15,7 @@ namespace Controllers
         private readonly IOrderService _service;
         public OrderController(IOrderService service) => _service = service;
 
-        // POST /api/orders -> user tự tạo đơn hàng
+        // POST /api/orders -> user tự tạo đơn hàng - user & admin đều tạo được đơn
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create([FromBody] OrderCreateDto dto)
@@ -26,28 +26,28 @@ namespace Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
         
-        // GET /api/orders/{id} -> user chỉ xem đơn của mình, admin xem tất cả
-[HttpPut("{id:int}")]
-[Authorize(Roles = "Admin")]
-public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateDto dto)
-{
-    
-    // Kiểm tra Id trùng nhau
+        // PUT /api/orders/{id} -> chinh sửa đơn hàng theo id - chi admin
+        [HttpPut("{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateDto dto)
+        {
+            
+            // Kiểm tra Id trùng nhau
             if (id != dto.Id)
                 return BadRequest("Id trong URL và body phải trùng nhau!");
 
-    // VALIDATION
-    var error = Validate(dto, new OrderUpdateDtoValidator());
-    if (error is not null) return error;
+            // VALIDATION
+            var error = Validate(dto, new OrderUpdateDtoValidator());
+            if (error is not null) return error;
 
-    var success = await _service.UpdateOrderAsync(dto);
-    if (!success)
-        return NotFound($"Không tìm thấy đơn hàng có Id = {id}");
+            var success = await _service.UpdateOrderAsync(dto);
+            if (!success)
+                return NotFound($"Không tìm thấy đơn hàng có Id = {id}");
 
-    return NoContent(); // 204 
-}
-        [HttpGet("{id:int}")]
+            return NoContent(); // 204 
+        }
 
+        [HttpGet("{id:int}")] //lay don hang theo id, admin thi lay ai cung dc, user thi chi lay dc don cua minh
         public async Task<IActionResult> GetById(int id)
         {
             var order = await _service.GetOrderByIdAsync(id);
@@ -63,21 +63,20 @@ public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateDto dto)
             return Ok(orders);
         }
 
-        // PATCH /api/orders/{id}/status -> chỉ admin sửa trạng thái
+        // PATCH /api/orders/{id}/status -> chỉ admin sửa trạng thái - trang thai nhu la Processing, Shipped, Delivered, Cancelled
         [HttpPatch("{id:int}/status")]
-[Authorize(Roles = "Admin")]
-public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
-{
-    var ok = await _service.UpdateOrderStatusAsync(id, dto.Status);
-    if (!ok) return NotFound();
-    return NoContent();
-}
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
+        {
+            var ok = await _service.UpdateOrderStatusAsync(id, dto.Status);
+            if (!ok) return NotFound();
+            return NoContent();
+        }
 
-public class StatusUpdateDto
-{
-    public string Status { get; set; }
-}
-
+        public class StatusUpdateDto
+        {
+            public string Status { get; set; }
+        }
 
         // DELETE /api/orders/{id} -> chỉ admin xoá
         [HttpDelete("{id:int}")]
@@ -90,18 +89,17 @@ public class StatusUpdateDto
         }
         
         private ActionResult Validate<T>(T dto, IValidator<T> validator) where T : class
-{
-    var result = validator.Validate(dto);
-    if (!result.IsValid)
-    {
-        var errors = result.Errors
-            .GroupBy(e => e.PropertyName)
-            .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray());
+        {
+            var result = validator.Validate(dto);
+            if (!result.IsValid)
+            {
+                var errors = result.Errors
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray());
 
-        return BadRequest(new { errors }); 
-    }
-    return null!; 
-}
-        
+                return BadRequest(new { errors }); 
+            }
+            return null!; 
+        }
     }
 }

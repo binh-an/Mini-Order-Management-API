@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthProvider from "./context/AuthProvider";
 import { CartProvider } from "./context/CartContext";
 
-import Login from './pages/login'
-import ForgotPassword from './pages/forgot-pass'
-import CreateAccount from './pages/create-account'
+import Login from './pages/Auth/login'
+import ForgotPassword from './pages/Auth/forgot-pass'
+import CreateAccount from './pages/Auth/create-account'
 import CreateProduct from "./pages/create-product";
 import Order from "./pages/order";
 import Cart from "./pages/cart";
