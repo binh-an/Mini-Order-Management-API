@@ -2,14 +2,19 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
-import { RxAvatar } from "react-icons/rx";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextValue";
+import UserMenu from "../userInfo";
 
 export default function BasicHeader( {onSearch}) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
 
   const handleCreateClick = () => {  
     console.log(user);
@@ -71,7 +76,7 @@ export default function BasicHeader( {onSearch}) {
 
         <span className="icon"><IoIosHelpCircleOutline /></span>
         <span className="icon"><GrLanguage /></span>
-        <span className="icon"><RxAvatar /></span>
+        <UserMenu user={user} onLogout={logout} />
       </div>
     </header>
   );

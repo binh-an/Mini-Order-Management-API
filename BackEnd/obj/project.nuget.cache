@@ -1,8 +1,20 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "5iS+gwm8mxhn66iefXFWjZlLDojnq5qxkWzgLGML3stYPhhl5++emY91JUeyrfaT9IEZc7YdxkCBtTxhqdrHmA==",
   "success": true,
   "projectFilePath": "D:\\mini-order\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+=======
+<<<<<<< HEAD
+  "dgSpecHash": "RtNqI8LUsrRxwI9yQxDALDkVPuxUVn1TrcG6qVSeTjgmHHoJpoP2TyTt/laotizS/ChNYt/yqhP9+RvvY4IJ9w==",
+  "success": true,
+  "projectFilePath": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
+=======
+  "dgSpecHash": "8ScIrn7OK04=",
+  "success": true,
+  "projectFilePath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj",
+>>>>>>> 19c94681405b942dc3696407bba8748c8efb6a47
+>>>>>>> origin/hotu
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

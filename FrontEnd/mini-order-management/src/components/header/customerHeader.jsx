@@ -2,9 +2,18 @@
 import { NavLink } from "react-router-dom";
 import { IoIosAdd, IoIosHelpCircleOutline, IoIosPersonAdd } from "react-icons/io";
 import { GrLanguage } from "react-icons/gr";
-import { RxAvatar } from "react-icons/rx";
+import UserMenu from "../userInfo";
 
 export default function CustomerHeader({ openAddCustomerPopup }) {
+  const user = {
+    role: localStorage.getItem("role"),
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
+
   return (
     <header className="app-header">
       <div className="logo">Car Showroom</div>
@@ -28,7 +37,7 @@ export default function CustomerHeader({ openAddCustomerPopup }) {
 
         <span className="icon"><IoIosHelpCircleOutline /></span>
         <span className="icon"><GrLanguage /></span>
-        <span className="icon"><RxAvatar /></span>
+         <UserMenu user={user} onLogout={logout} />
       </div>
     </header>
   );
