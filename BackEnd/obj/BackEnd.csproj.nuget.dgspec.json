@@ -2,6 +2,7 @@
   "format": 1,
   "restore": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "D:\\mini-order\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
@@ -13,6 +14,9 @@
         "projectPath": "D:\\mini-order\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
         "outputPath": "D:\\mini-order\\Mini-Order-Management-API\\BackEnd\\obj\\",
+=======
+    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {}
+>>>>>>> origin/hotu
 =======
 <<<<<<< HEAD
     "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {}
@@ -28,17 +32,25 @@
         "outputPath": "D:\\backend40_completed\\Mini-Order-Management-API\\BackEnd\\obj\\",
 =======
     "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj": {}
+>>>>>>> 735efc974dae2bcfc8dc1ad04cea6076ee549fb7
   },
   "projects": {
-    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj": {
+    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj",
+        "projectUniqueName": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj",
+        "projectPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\hocam\\.nuget\\packages\\",
+<<<<<<< HEAD
+        "outputPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\obj\\",
+=======
         "outputPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\obj\\",
 >>>>>>> 19c94681405b942dc3696407bba8748c8efb6a47
+<<<<<<< HEAD
+>>>>>>> origin/hotu
+=======
+>>>>>>> 735efc974dae2bcfc8dc1ad04cea6076ee549fb7
 >>>>>>> origin/hotu
         "projectStyle": "PackageReference",
         "fallbackFolders": [

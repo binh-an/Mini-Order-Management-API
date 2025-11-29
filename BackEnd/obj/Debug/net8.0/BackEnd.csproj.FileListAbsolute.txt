@@ -784,6 +784,8 @@ D:\mini-order\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
 =======
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\web.config
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\appsettings.Development.json
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\appsettings.json
@@ -791,4 +793,8 @@ F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\BackEnd.runtimeconfig.json
 F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\BackEnd.staticwebassets.endpoints.json
 >>>>>>> 19c94681405b942dc3696407bba8748c8efb6a47
+<<<<<<< HEAD
+>>>>>>> origin/hotu
+=======
+>>>>>>> 735efc974dae2bcfc8dc1ad04cea6076ee549fb7
 >>>>>>> origin/hotu

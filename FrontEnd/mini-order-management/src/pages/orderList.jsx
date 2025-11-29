@@ -91,6 +91,7 @@ export default function OrderList() {
               <tr>
                 <th>Customer</th>
                 <th>Product</th>
+                <th>Quantity</th>
                 <th>Status</th>
                 <th>Total</th>
                 <th>Created Date</th>
@@ -102,6 +103,7 @@ export default function OrderList() {
                 <tr key={order.id}>
                   <td>{order.customerId}</td>
                   <td>{order.items?.map(i => i.productName).join(", ")}</td>
+                  <td>{order.items?.reduce((sum, i) => sum + i.quantity, 0)}</td>
                   <td>{order.status}</td>
                   <td>${order.totalAmount}</td>
                   <td>{new Date(order.createdDate).toLocaleString()}</td>
