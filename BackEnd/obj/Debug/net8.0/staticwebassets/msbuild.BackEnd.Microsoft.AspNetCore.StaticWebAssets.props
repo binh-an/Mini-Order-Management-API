@@ -48,6 +48,8 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\e090add5-4de3-450d-a947-da4734c808e1.png))</OriginalItemSpec>
     </StaticWebAsset>
+<<<<<<< HEAD
+=======
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\4102f1f0-e54d-48d4-ae3c-241fa4c4825e.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>BackEnd</SourceId>
@@ -80,5 +82,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\products\6493a5f2-fe72-4468-a96e-25d9d8f01a0f.jpg))</OriginalItemSpec>
     </StaticWebAsset>
+>>>>>>> 19c94681405b942dc3696407bba8748c8efb6a47
   </ItemGroup>
 </Project>
