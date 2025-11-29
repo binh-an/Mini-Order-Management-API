@@ -611,9 +611,3 @@ D:\backend40_completed\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\refint
 D:\backend40_completed\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 D:\backend40_completed\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 D:\backend40_completed\Mini-Order-Management-API\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
-F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\web.config
-F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\appsettings.Development.json
-F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\appsettings.json
-F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\BackEnd.deps.json
-F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\BackEnd.runtimeconfig.json
-F:\UNIVER\Back End\CuoiKi\Git\Mini-Order-Management-API\backEnd\bin\Debug\net8.0\publish\BackEnd.staticwebassets.endpoints.json

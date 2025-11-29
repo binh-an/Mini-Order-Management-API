@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj": {}
+    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj": {
+    "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj",
+        "projectUniqueName": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\BackEnd.csproj",
+        "projectPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\hocam\\.nuget\\packages\\",
-        "outputPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\backEnd\\obj\\",
+        "outputPath": "F:\\UNIVER\\Back End\\CuoiKi\\Git\\Mini-Order-Management-API\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
